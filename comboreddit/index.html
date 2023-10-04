@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title></title>
+	<script type="text/javascript">
+
+
+		fetch("https://old.reddit.com/r/programming.rss")
+			.then(response => response.text())
+			.then(str => new window.DOMParser().parseFromString(str, "text/ml"))
+			.then(data => {
+				console.log(data)
+				const items = data.querySelectorAll("item")
+				items.forEach(en => {
+
+				})
+				console.log("--")
+			})
+	</script>
+</head>
+<body>
+
+</body>
+</html>

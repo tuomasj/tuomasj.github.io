@@ -1,0 +1,25 @@
+<section class="page-section">
+  <h2>
+    My latest blog posts
+  </h2>
+  <p>
+    Looks like I haven't written anything for few years. I am a text-book example of the mythical aspiring blogger. I'm constantly trying to reignite my blogger self.
+  </p>
+  <p>
+    Here are my five latest blog posts.
+  </p>
+  <p>
+    <ul>
+      {% for post in site.posts limit:5 %}
+        <li>
+          <a class="link" href="{{ post.url }}">{{ post.title }}</a> -
+          {{ post.date | date_to_string }}
+        </li>
+      {% endfor %}
+    </ul>
+  </p>
+  <br>
+  <p>
+    <a href="/archive">View all my blog posts &rarr;</a>
+  </p>
+</section>

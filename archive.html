@@ -1,0 +1,16 @@
+---
+layout: archive
+---
+<section class="page-section">
+  <h1>All Blog Posts</h1>
+  <p>
+    <ul>
+      {% for post in site.posts %}
+        <li>
+          <a class="link" href="{{ post.url }}">{{ post.title }}</a> -
+          {{ post.date | date_to_string }}
+        </li>
+      {% endfor %}
+    </ul>
+  </p>
+</section>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web Safe Fonts</title>
+  <style type="text/css">
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto 2rem auto;
+      padding-left: 1rem;
+      padding-right:  1rem;
+    }
+    main {
+      margin: 2rem auto 8rem auto;
+      padding-top: 160px;
+    }
+    header {
+      font-family: 'Trebuchet MS';
+      font-size: 15px;
+      position: fixed;
+      top: 0;
+      z-index: 9;
+      background-color: white;
+      width: 100%;
+      height: 160px;
+    }
+    footer {
+      max-width: 900px;
+      margin: 2rem auto 2rem auto;
+      font-size: 20px;
+    }
+    header h1,.field {
+      max-width: 900px;
+      margin: 2rem auto 2rem auto;
+      padding-left: 1rem;
+      padding-right:  1rem;
+    }
+    h1 {
+      font-size: 40px;
+    }
+    .field {
+      line-height: 2rem;
+      display: flex;
+      align-items:  middle;
+    }
+    .field input[type=text] {
+      user-select: none;
+      pointer-events:none;
+      width: 3rem;
+      text-align: center;
+      font-family:  monospace;
+    }
+    .field input[type=range] {
+      min-width: 400px;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+    label {
+      font-size: 20px;
+      font-family:  monospace;
+    }
+    .fonts .fontface {
+      font-size: 20px;
+      margin-bottom:  3rem;
+    }
+    .fonts .fontface .description {
+      font-family:  monospace;
+      color: #a0a0a0;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Web safe fonts</h1>
+    <div class="field">
+      <label>font-size:</label>
+      <input type="range" min="10" max="200" value="20">
+      <input type="text" readonly="true" value="20px">
+    </div>
+  </header>
+  <main>
+    <ul class="fonts">
+      <h2>Sans-serif</h2>
+      <li>
+
+        <div class="fontface" style="font-family: -apple-system;">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            -apple-system
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'BlinkMacSystemFont';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            BlinkMacSystemFont
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'avenir next';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            avenir next
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'avenir';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            avenir
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'segoe ui';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            segoe ui
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'helvetica neue';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            helvetica neue
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'helvetica';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            helvetica
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'Cantarell';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            Cantarell
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'Ubuntu';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            Ubuntu
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'roboto';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            roboto
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'noto';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            noto
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'arial';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            arial
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="fontface" style="font-family: 'sans-serif';">
+          The quick brown fox jumps over the lazy dog
+          <div class="description">
+            sans-serif
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="fonts">
+      <div class="fontface" style="font-family: 'Arial';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Arial
+          <small>sans-serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Arial Black';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Arial Black
+          <small>sans-serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Verdana';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Verdana
+          <small>sans-serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Tahoma';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Tahoma
+          <small>sans-serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Trebuchet MS';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Trebuchet MS
+          <small>sans-serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Impact';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Impact
+          <small>sans-serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Times New Roman';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Times New Roman
+          <small>serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Didot';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Didot
+          <small>serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Georgia';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Georgia
+          <small>serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'American Typewriter';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          American Typewriter
+          <small>serif</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Andalé Mono';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Andalé Mono
+          <small>monospace</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Courier';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Courier
+          <small>monospace</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Lucida Console';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Lucida Console
+          <small>monospace</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Monaco';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Monaco
+          <small>monospace</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Bradley Hand';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Bradley Hand
+          <small>cursive</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Brush Script MT';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Brush Script MT
+          <small>cursive</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Luminari';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Luminari
+          <small>fantasy</small>
+        </div>
+      </div>
+      <div class="fontface" style="font-family: 'Comic Sans MS';">
+        The quick brown fox jumps over the lazy dog
+        <div class="description">
+          Comic Sans MS
+          <small>cursive</small>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <footer>
+    <a href="/">&larr; Back to main page</a>
+  </footer>
+  <script>
+    document.querySelector("input[type=range]").addEventListener('input', function(ev) {
+        const value = ev.srcElement.value;
+        const elements = document.querySelectorAll('.fontface');
+        const font_size = value+"px";
+        document.querySelector("input[type=text]").value = font_size;
+        elements.forEach(function(node) {
+          node.style.fontSize = font_size;
+        });
+    })
+
+  </script>
+  <script>window.sa_event=window.sa_event||function(){a=[].slice.call(arguments);sa_event.q?sa_event.q.push(a):sa_event.q=[a]};</script>
+  <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+  <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+</body>
+</html>

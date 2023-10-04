@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTML Editor</title>
+  <style type="text/css">
+    * {
+      padding: 0;
+      margin: 0;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+    main {
+      margin: 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 20px;
+    }
+    #editor {
+      height: calc(100vh - 70px);
+      font-family: monospace;
+      background-color: #ededed;
+      color: #222;
+      border: 1px solid #e2e2e2;
+      padding: 10px;
+    }
+    #preview {
+      height: calc(100vh - 70px);
+      border: 1px solid #e2e2e2;
+      padding: 10px;
+    }
+    iframe {
+      border: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+
+</head>
+<body>
+  <main>
+<textarea id="editor">
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Page Title Here</title>
+    <style type="text/css">
+    </style>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec convallis viverra felis,
+      sed pharetra neque hendrerit condimentum. Nulla vestibulum dolor ante, non varius nibh
+      pellentesque sit amet. Praesent venenatis luctus magna sit amet sodales.
+    </p>
+    <p>
+      You can generate more meaningless text <a href="https://lipsum.com">here</a>.
+    </p>
+  </body>
+</html>
+</textarea>
+
+    </div>
+    <div id="preview">
+    </div>
+
+    <p>
+      <small>
+        This site uses <a href="https://ace.c9.io">Ace</a> for syntax highlighted edit window. You can use this editor to go through <a href="https://jgthms.com/web-design-in-4-minutes">Web Design in 4 minutes</a>.
+      </small>
+    </p>
+  </main>
+  <script type="text/javascript" src="ace/ace.min.js"></script>
+  <script type="text/javascript" src="ace/mode-html.js"></script>
+  <script type="text/javascript">
+    var iframe = document.createElement("iframe");
+    var preview = document.querySelector("#preview");
+    preview.appendChild(iframe);
+    ace.config.set("basePath", "ace");
+    ace.config.set("showPrintMargin", false);
+    var editor = ace.edit("editor");
+
+
+    function update() {
+      iframe.contentWindow.document.open();
+      iframe.contentWindow.document.write(editor.getValue());
+      iframe.contentWindow.document.close();
+    }
+
+
+    editor.session.on('change', function() {
+      console.log("keydown")
+      update();
+    })
+
+    //editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/html");
+    update();
+    editor.focus();
+  </script>
+  <script>window.sa_event=window.sa_event||function(){a=[].slice.call(arguments);sa_event.q?sa_event.q.push(a):sa_event.q=[a]};</script>
+  <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+  <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+</body>
+</html>
