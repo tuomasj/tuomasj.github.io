@@ -40,12 +40,17 @@ p {
 }
 ul {
   margin-top: 0.25rem;
+  margin-top: 1.2rem;
   margin-left: 2rem;
   line-height: 1.5;
+  margin-bottom: 2.4rem;
 }
 li {
-  line-height: 1.5;
-  margin-bottom: 1.2rem;
+  line-height: 1.0;
+  margin-bottom: 1.0rem;
+}
+li > ul {
+  margin-bottom: 0;
 }
 
 img[src*='#center'] {
@@ -258,3 +263,18 @@ time {
 .highlight .vi { color: #B8860B } /* Name.Variable.Instance */
 .highlight .vm { color: #B8860B } /* Name.Variable.Magic */
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+
+.notification {
+  padding: 1.5rem 1rem;
+  margin: 1rem 0;
+  border-radius: 0.25rem;
+  border: 1px solid transparent;
+}
+
+.is-success {
+  background-color: #cbeeff;
+  border-color: #68acd1;
+}
+.has-text-centered {
+  text-align: center;
+}
