@@ -96,13 +96,11 @@ Internetistä löytyy Ruby on Rails-aiheisia opetussivustoja ja videoita:
 
 Ihan ensimmäisellä tunnilla tutustutaan Ruby-ohjelmointikieleen ja käydään perusteita läpi. Samalla vilkaistaan Ruby on Rails:ia. Sen jälkeen kuljetaan Ruby on Rails teknologia-pinoa alhaalta ylöspäin.
 
-Jokainen sessio alkaa klo 18:30 ja kestää noin kaksi tuntia. Sijaintina on joko Oulun Yliopisto Linnanmaan kampus tai Oulun keskusta.
-
 Jokaiseen sessioon liittyy jokin aihealue Ruby on Rails-oppaasta, sitä kannattaa vilkaista ennen sessiota ja varsinkin session jälkeen.
 
 Ei kannata säikähtää sitä massiivista tiedon määrää mitä löytyy ohjelmointikielistä, ohjelmointikielillä ja vastaavilla projekteilla on tapana suunnata dokumentaatiot kokeneille kehittäjille. Tällä kurssilla keskitytään tärkeimpiin juttuihin, eikä kahlata koko dokumentaatiota läpi.
 
-### Sessio 1: Rubyn perusteet
+### Sessio 1: Rubyn perusteet (17.10.2023)
 
 - Muuttujat, metodit, luokat, olio-ohjelmointi
 - Ruby ekosysteemi
@@ -118,26 +116,26 @@ Ei kannata säikähtää sitä massiivista tiedon määrää mitä löytyy ohjel
 - Miten luetaan Ruby on Rails:in dokumentaatiota
 - Ruby on Rails-opas: [Start here](https://guides.rubyonrails.org/getting_started.html)
 
-### Sessio 2: Miten haetaan ja tallennetaan tietoa tietokantaan?
+### Sessio 2: Miten haetaan ja tallennetaan tietoa tietokantaan? (31.12.2023)
 
 - Tietomallit, PostgreSQL, ActiveRecord/ORM, Data migraatiot, (CRUD) Create/Read/Update/Delete, Validaatiot
 - Miten tietomalli toimii yhteistyössä muiden tietomallien kanssa
 - Ruby on Rails-opas: [Active Record Basics](https://guides.rubyonrails.org/active_record_basics.html), [Active Record Migrations](https://guides.rubyonrails.org/active_record_migrations.html), [Active Record Validations](https://guides.rubyonrails.org/active_record_validations.html)
 
-### Sessio 3: Web-selaimen ja Ruby on Rails:in yhteistyö
+### Sessio 3: Web-selaimen ja Ruby on Rails:in yhteistyö (7.11.2023)
 
 - Kontrollerit, toiminnot, reitit
 - Miten tehdään kontrollerin toiminto (action) joka hakee tietoa tietokannasta
 - Käydään läpi "Post/Redirect/Get"-malli, joka on webin yksi peruspilareista
 - Ruby on Rails-opas: [Action Controller Overview](https://guides.rubyonrails.org/action_controller_overview.html), [Rails Routing from the Outside In](https://guides.rubyonrails.org/routing.html)
 
-### Sessio 4: Laitetaan jotain näkyvää selaimeen
+### Sessio 4: Laitetaan jotain näkyvää selaimeen (14.11.2023)
 
 - Näkymät, partiaalit, lomakkeet, nimetyt reitit
 - Miten käyttäjän syöttämä tieto tallennetaan tietokantaan
 - Ruby on Rails-opas: [Action View Overview](https://guides.rubyonrails.org/action_view_overview.html), [Layouts and Rendering in Rails](https://guides.rubyonrails.org/layouts_and_rendering.html), [Action Form Helpers](), [Action View Helpers](https://guides.rubyonrails.org/form_helpers.html)
 
-### Sessio 5: SaaS-palvelun ja bisneksen kehittäminen
+### Sessio 5: SaaS-palvelun ja bisneksen kehittäminen (21.11.2023)
 
 - Sähköpostin lähettäminen ja esikatseleminen ([ActionMailer](https://guides.rubyonrails.org/action_mailer_basics.html),  Mailcatcher-gem)
 - Asioiden prosessointi taustalla ([ActiveJobs](https://guides.rubyonrails.org/active_job_basics.html))
@@ -152,4 +150,4 @@ Ei kannata säikähtää sitä massiivista tiedon määrää mitä löytyy ohjel
 Lämpimät kiitokset avusta!
 
 - Tekstin oikuluku, sujuvoittaminen ja parantelu [Petteri Parhi](https://www.parhi.fi/)
-- Opetustila [Anne Sorvari](https://www.linkedin.com/in/annesorvari)
+- Opetustilat [Anne Sorvari](https://www.linkedin.com/in/annesorvari)
