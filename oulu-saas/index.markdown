@@ -147,4 +147,9 @@ Ei kannata säikähtää sitä massiivista tiedon määrää mitä löytyy ohjel
 - Tuotantoympäristö omassa palvelimessa vs pilvipalvelut
 - Kurssin loppusanat
 
+## Kiitokset
 
+Lämpimät kiitokset avusta!
+
+- Tekstin oikuluku, sujuvoittaminen ja parantelu [Petteri Parhi](https://www.parhi.fi/)
+- Opetustila [Anne Sorvari](https://www.linkedin.com/in/annesorvari)
