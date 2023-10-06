@@ -26,9 +26,9 @@ Jos se on niin helppoa, niin miksei Oulussa ole satoja SaaS-palveluita?
 
 Hyvä kysymys! Moni asia on vaikeaa, jos työkalut ovat väärät. Oma näkemykseni onkin, että oikeat työkalut valitsemalla teet SaaS-palveluiden rakentamisesta itsellesi helppoa.
 
-No, nyt minä sitten opetan Ruby on Rails:lla miten tehdään SaaS-palveluita, koska se on minun mielestä paras työkalu pienen porukan voimin palvelun rakentamiseen. (Yksinkin voi tehdä SaaS-palveluita!)
+"Ole se muutos jonka haluat maailmassa nähdä."
 
-Ole se muutos jonka haluat maailmassa nähdä.
+No, nyt minä sitten opetan miten tehdään SaaS-palveluita. Työkaluna käytetään [Ruby on Rails](https://rubyonrails.org/)-nimistä avoimen lähdekoodin projektia, joka on erittäin hyvä työkalu pienen porukan voimin palvelun rakentamiseen. (Ja yksinkin voi tehdä SaaS-palveluita! Minä tein SaaS-palvelun ihan yksin ja lopulta möin sen ulkomaille)
 
 ## Ossaakko nää edes opettaa?
 
@@ -53,7 +53,7 @@ Jos sinun tietokoneessa on Mac OS-käyttöjärjestelmä, niin suosittelen käytt
 Windows-koneisiin Ruby on Rails-asennus on helpointa hoitaa [RubyInstaller](https://www.rubyinstaller.org)-paketilla.
 
 Kun sinun tietokoneen terminaaliin kirjoittaa
-`rails -v` ja vastauksena tulee jotakuinkin tämän näköinen teksti `Rails 7.1.0.rc1` , olet onnistunut Ruby on Railsin asentamisessa.
+`rails -v` ja vastauksena tulee jotakuinkin tämän näköinen teksti `Rails 7.1.0` , olet onnistunut Ruby on Railsin asentamisessa.
 
 Ohjelmoinnin tylsin vaihe on ohjelmointikielen ja ohjelmointiympäristö asentaminen, kun sen saa suoritettua niin loppu sujuu kuin tanssi.
 
@@ -73,7 +73,7 @@ En tiedä yhtään kuinka monta ihmistä ilmoittautuu, joten en pysty lupaamaan,
 
 Alustavien suunnitelmien mukaan kurssille mahtuu 15-20 osallistujaa. Jos ilmoittautumisia tulee enemmän kuin 20 niin minä valitsen osallistujat ilmoittautumislomakkeen perusteella.
 
-Kurssi on tiistaisin klo 18:30 - 20:30. Paikka on [OAMK Business Corner](https://www.oamk.fi/fi/oamk/yhteystiedot/linnanmaan-kampus/vierailijoille), Oulun Yliopisto, Linnanmaan-kampus. Kurssi alkaa 17.10. ja viimeinen kokoontuminen on 21.11. päivä. Syysloma-viikolla 24.10. ei pidetä kurssia.
+Kurssi on tiistaisin klo 18:30 - 20:30. Paikka on [OAMK Business Corner](https://www.oamk.fi/fi/oamk/yhteystiedot/linnanmaan-kampus/vierailijoille), Oulun Yliopisto, Linnanmaan-kampus. Kurssi alkaa 17.10. ja viimeinen kokoontuminen on 21.11. Syysloma-viikolla 24.10. ei pidetä kurssia.
 
 <div class="notification is-success has-text-centered">
   👉 <a href="https://forms.gle/EEBZ9A4Ra6TifJGx9">Linkki ilmoittautumiseen</a>👈
