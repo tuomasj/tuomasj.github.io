@@ -26,7 +26,7 @@ Jos se on niin helppoa, niin miksei Oulussa ole satoja SaaS-palveluita?
 
 Hyvä kysymys! Moni asia on vaikeaa, jos työkalut ovat väärät. Oma näkemykseni onkin, että oikeat työkalut valitsemalla teet SaaS-palveluiden rakentamisesta itsellesi helppoa.
 
-"Ole se muutos jonka haluat maailmassa nähdä."
+_"Ole se muutos jonka haluat maailmassa nähdä."_
 
 No, nyt minä sitten opetan miten tehdään SaaS-palveluita. Työkaluna käytetään [Ruby on Rails](https://rubyonrails.org/)-nimistä avoimen lähdekoodin projektia, joka on erittäin hyvä työkalu pienen porukan voimin palvelun rakentamiseen. (Ja yksinkin voi tehdä SaaS-palveluita! Minä tein SaaS-palvelun ihan yksin ja lopulta möin sen ulkomaille)
 
