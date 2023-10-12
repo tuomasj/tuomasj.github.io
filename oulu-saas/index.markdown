@@ -118,7 +118,7 @@ Ei kannata säikähtää sitä massiivista tiedon määrää mitä löytyy ohjel
 - Miten luetaan Ruby on Rails:in dokumentaatiota
 - Ruby on Rails-opas: [Start here](https://guides.rubyonrails.org/getting_started.html)
 
-### Sessio 2: Miten haetaan ja tallennetaan tietoa tietokantaan? (31.12.2023)
+### Sessio 2: Miten haetaan ja tallennetaan tietoa tietokantaan? (31.11.2023)
 
 - Tietomallit, PostgreSQL, ActiveRecord/ORM, Data migraatiot, (CRUD) Create/Read/Update/Delete, Validaatiot
 - Miten tietomalli toimii yhteistyössä muiden tietomallien kanssa
