@@ -76,7 +76,9 @@ Alustavien suunnitelmien mukaan kurssille mahtuu 15-20 osallistujaa. Jos ilmoitt
 Kurssi on tiistaisin klo 18:30 - 20:30. Paikka on [OAMK Business Corner](https://www.oamk.fi/fi/oamk/yhteystiedot/linnanmaan-kampus/vierailijoille), Oulun Yliopisto, Linnanmaan-kampus. Kurssi alkaa 17.10. ja viimeinen kokoontuminen on 21.11. Syysloma-viikolla 24.10. ei pidetä kurssia.
 
 <div class="notification is-success has-text-centered">
-  👉 <a href="https://forms.gle/EEBZ9A4Ra6TifJGx9">Linkki ilmoittautumiseen</a>👈
+  👉 <s>Linkki ilmoittautumiseen</s> 👈
+  <br>
+  Kurssille ilmoittautuminen on suljettu, kiitoksia mielenkiinnosta!
 </div>
 
 ## En osallistu mutta Ruby on Rails rupesi kiinnostamaan, mistä löydän lisää tietoa?
