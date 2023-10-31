@@ -120,8 +120,19 @@ Ei kannata säikähtää sitä massiivista tiedon määrää mitä löytyy ohjel
 
 ### Sessio 2: Miten haetaan ja tallennetaan tietoa tietokantaan? (31.11.2023)
 
-- Tietomallit, PostgreSQL, ActiveRecord/ORM, Data migraatiot, (CRUD) Create/Read/Update/Delete, Validaatiot
-- Miten tietomalli toimii yhteistyössä muiden tietomallien kanssa
+- Tietomallit,
+- ActiveRecord (ORM)
+- Data migraatiot
+- Tietomallin attribuutit ja `db/schema.rb`
+- Esimerkki, Linkin lyhentäjä
+  - Muutama sananen nimeämisestä
+  - Tarvitaan attribuutti mihin tallennetaan linkki ja mihin tallennetaan lyhennetty linkki
+  - Tietomalli: `Link`
+    - Käytetään Rails:in generaattoria: `rails generate model link`
+    - Lopputulemana on tiedosto `app/models/link.rb`, sekä migraatio
+    - Muokataan migraatiotiedostoa ja lisätään sinne halutut attribuutit
+    - Ajetaan migraatio `rails db:migrate`
+- Miten tietomalli toimii yhteistyössä muiden tietomallien kanssa (tietomallien assosiaatiot)
 - Ruby on Rails-opas: [Active Record Basics](https://guides.rubyonrails.org/active_record_basics.html), [Active Record Migrations](https://guides.rubyonrails.org/active_record_migrations.html), [Active Record Validations](https://guides.rubyonrails.org/active_record_validations.html)
 
 ### Sessio 3: Web-selaimen ja Ruby on Rails:in yhteistyö (7.11.2023)
