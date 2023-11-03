@@ -25,17 +25,22 @@ Videon voi pysäyttää painamalla välilyöntiä, nuoli oikealle/vasemmalle hyp
   </ul>
 </details>
 
-## Linkkejä
+## Käsitellyt asiat Rails Guide-linkkeinä
 
 - Perustietoa ActiveRecord:sta: [Ruby on Rails Guides - ActiveRecord basics](https://guides.rubyonrails.org/active_record_basics.html)
 - Miten tehdään tietomallilla validaattoreita: [ActiveRecord Validations](https://guides.rubyonrails.org/active_record_validations.html)
 - Miten kutsutaan metodia kun jokin tietto operaatio tapahtuu tietomallin sisällä: [ActiveRecord Callbacks](https://guides.rubyonrails.org/active_record_callbacks.html) (Käytettiin `presence` ja `uniqueness` validaattoreita)
+- Tietokanta migraatiot: [ActiveRecord migrations](https://guides.rubyonrails.org/active_record_migrations.html)
 
 ## Konsolikomentoja
 
-`rails console -s` käynnistää Rails konsolin "hiekkalaatikko"-tilassa, jolloin kaikki konsolissa tehdyt muutokset peruuntuvat kun poistutaan Rails konsolista.
+`rails new session2` komento millä Ruby on Rails luo meille projektin hakemistorakenteen ja asentaa Ruby on Rails:in tarvitsemat kirjastot (eli Gem:it)
+
+`rails console -s` käynnistää Rails konsolin "hiekkalaatikko"-tilassa (`-s`), jolloin kaikki konsolissa tehdyt muutokset peruuntuvat kun poistutaan Rails konsolista. Komennon voi myös lyhentää `rails c -s`.
 
 `rails generate migration Link` luo luokan ja migraatiotiedoston tietomallille nimeltään Link.
+
+`rails db:migrate` komennolla ajetaan migraatiotiedostot, mikäli niitä on ajamatta. Vastakohtana `rails db:rollback` jolla peruutetaan viimeisin migraatio.
 
 ## Miten haetaan tietoa ActiveRecordin kautta?
 
