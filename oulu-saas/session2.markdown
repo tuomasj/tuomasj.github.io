@@ -73,12 +73,11 @@ end
 # app/models/link.rb
 
 class Link < ApplicationRecord
-  # https://guides.rubyonrails.org/active_record_validations.html
-
+  # https://guides.rubyonrails.org/active_record_validations.html#presence
   validates :url, presence: true
   validates :token, uniqueness: true
 
-  # https://guides.rubyonrails.org/active_record_callbacks.html
+  # https://guides.rubyonrails.org/active_record_callbacks.html#after-initialize-and-after-find
   after_initialize :generate_unique_token
 
   def generate_unique_token
