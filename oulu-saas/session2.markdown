@@ -25,7 +25,7 @@ Videon voi pysäyttää painamalla välilyöntiä, nuoli oikealle/vasemmalle hyp
   </ul>
 </details>
 
-## Käsitellyt asiat Rails Guide-linkkeinä
+## Käsitellyt asiat Rails Guides-linkkeinä
 
 - Perustietoa ActiveRecord:sta: [Ruby on Rails Guides - ActiveRecord basics](https://guides.rubyonrails.org/active_record_basics.html)
 - Miten tehdään tietomallilla validaattoreita: [ActiveRecord Validations](https://guides.rubyonrails.org/active_record_validations.html)
