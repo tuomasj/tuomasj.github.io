@@ -6,7 +6,7 @@ layout: plain_with_title_asciinema
 
 Toisen session asiat videomuodossa, paina play! ▶️🙂
 
-Videon voi pysäyttää painamalla välilyöntiä, nuoli oikealle/vasemmalle hyppää 5sec eteenpäin/taaksepäin.
+Videon voi pysäyttää painamalla `välilyöntiä`, `nuoli oikealle` tai `nuoli vasemmalle` hyppää 5sec eteenpäin/taaksepäin. Painamalla `f` suurenee video koko ruudun kokoiseksi.
 
 
 <div id="cast1">
