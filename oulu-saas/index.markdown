@@ -135,6 +135,8 @@ Ei kannata säikähtää sitä massiivista tiedon määrää mitä löytyy ohjel
 - Miten tietomalli toimii yhteistyössä muiden tietomallien kanssa (tietomallien assosiaatiot)
 - Ruby on Rails-opas: [Active Record Basics](https://guides.rubyonrails.org/active_record_basics.html), [Active Record Migrations](https://guides.rubyonrails.org/active_record_migrations.html), [Active Record Validations](https://guides.rubyonrails.org/active_record_validations.html)
 
+Tämän session materiaalit löytyy [täältä](/oulu-saas/session2.html).
+
 ### Sessio 3: Web-selaimen ja Ruby on Rails:in yhteistyö (7.11.2023)
 
 - Kontrollerit, toiminnot, reitit
