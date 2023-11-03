@@ -18,11 +18,15 @@ Videon voi pysäyttää painamalla välilyöntiä, nuoli oikealle/vasemmalle hyp
     <li><kbd>f</kbd> - toggle fullscreen mode</li>
     <li><kbd>←</kbd> / <kbd>→</kbd> - rewind by 5 seconds / fast-forward by 5 seconds</li>
     <li><kbd>Shift</kbd> + <kbd>←</kbd> / <kbd>Shift</kbd> + <kbd>→</kbd> - rewind by 10% / fast-forward by 10%</li>
-    <li><kbd>[</kbd> - rewind to the previous <a href="#markers-1">marker</a></li>
-    <li><kbd>]</kbd> - fast-forward to the next <a href="#markers-1">marker</a></li>
+    <li><kbd>[</kbd> - rewind to the previous marker</li>
+    <li><kbd>]</kbd> - fast-forward to the next marker</li>
     <li><kbd>0</kbd>, <kbd>1</kbd>, <kbd>2</kbd> ... <kbd>9</kbd> - jump to 0%, 10%, 20% ... 90%</li>
     <li><kbd>.</kbd> - step through a recording a frame at a time (when paused)</li>
   </ul>
+
+  <p>
+    Powered by (Asciinema)[https://asciinema.org/]
+  </p>
 </details>
 
 ## Käsitellyt asiat Rails Guides-linkkeinä
