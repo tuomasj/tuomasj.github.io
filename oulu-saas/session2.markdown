@@ -27,9 +27,11 @@ Videon voi pysäyttää painamalla `välilyöntiä`, `nuoli oikealle` tai `nuoli
 
 `rails console -s` käynnistää Rails konsolin "hiekkalaatikko"-tilassa (`-s`), jolloin kaikki konsolissa tehdyt muutokset peruuntuvat kun poistutaan Rails konsolista. Komennon voi myös lyhentää `rails c -s`.
 
-`rails generate migration Link` luo luokan ja migraatiotiedoston tietomallille nimeltään Link.
+`rails generate model Link` luo luokan ja migraatiotiedoston tietomallille nimeltään Link.
 
 `rails db:migrate` komennolla ajetaan migraatiotiedostot, mikäli niitä on ajamatta. Vastakohtana `rails db:rollback` jolla peruutetaan viimeisin migraatio.
+
+`rails generate` listaa kaikki saatavilla olevat koodin generaattorit.
 
 ## Miten haetaan tietoa ActiveRecordin kautta?
 
