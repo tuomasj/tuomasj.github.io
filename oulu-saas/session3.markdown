@@ -60,7 +60,7 @@ Rails.application.routes.draw do
 end
 ```
 
-Reitteihin voi määritellä jokaisen reitit käyttämällä HTTP verbejä [1](#ref-1) (GET, POST, PATCH, PUT, DELETE). HTTP-standardin mukaisesti webselaimet käyttävät pääasiassa GET ja POST tyyppisiä HTTP-kutsuja, mutta muut kutsutyypit ovat käytössä.
+Reitteihin voi määritellä jokaisen reitit käyttämällä HTTP verbejä [(1)](#ref-1) (GET, POST, PATCH, PUT, DELETE). HTTP-standardin mukaisesti webselaimet käyttävät pääasiassa GET ja POST tyyppisiä HTTP-kutsuja, mutta muut kutsutyypit ovat käytössä.
 
 Mikäli ei halua määritellä reittejä yksi kerrallaan, niin voi käyttää esimerkiksi `resources`-metodia, joka luo RESTful-käytännön mukaiset reitit resurssiin.
 
