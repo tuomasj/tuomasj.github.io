@@ -136,6 +136,9 @@ Ei kannata säikähtää sitä massiivista tiedon määrää mitä löytyy ohjel
 - Ruby on Rails-opas: [Active Record Basics](https://guides.rubyonrails.org/active_record_basics.html), [Active Record Migrations](https://guides.rubyonrails.org/active_record_migrations.html), [Active Record Validations](https://guides.rubyonrails.org/active_record_validations.html)
 
 Tämän session materiaalit löytyy [täältä](/oulu-saas/session2.html).
+<br>
+<br>
+
 
 ### Sessio 3: Web-selaimen ja Ruby on Rails:in yhteistyö (7.11.2023)
 
@@ -144,11 +147,21 @@ Tämän session materiaalit löytyy [täältä](/oulu-saas/session2.html).
 - Käydään läpi "Post/Redirect/Get"-malli, joka on webin yksi peruspilareista
 - Ruby on Rails-opas: [Action Controller Overview](https://guides.rubyonrails.org/action_controller_overview.html), [Rails Routing from the Outside In](https://guides.rubyonrails.org/routing.html)
 
+Session 3 materiaalit löytyy [täältä](/oulu-saas/session3.html).
+<br>
+<br>
+
+
 ### Sessio 4: Laitetaan jotain näkyvää selaimeen (14.11.2023)
 
 - Näkymät, partiaalit, lomakkeet, nimetyt reitit
 - Miten käyttäjän syöttämä tieto tallennetaan tietokantaan
 - Ruby on Rails-opas: [Action View Overview](https://guides.rubyonrails.org/action_view_overview.html), [Layouts and Rendering in Rails](https://guides.rubyonrails.org/layouts_and_rendering.html), [Action Form Helpers](), [Action View Helpers](https://guides.rubyonrails.org/form_helpers.html)
+
+Session 4 materiaalit löytyy [täältä](/oulu-saas/session4.html).
+<br>
+<br>
+
 
 ### Sessio 5: SaaS-palvelun ja bisneksen kehittäminen (21.11.2023)
 
