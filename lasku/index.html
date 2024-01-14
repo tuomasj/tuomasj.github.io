@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lasku</title>
+  <title>Ilmainen laskupohja</title>
   <link rel="stylesheet" href="invoice.css">
+  <meta name="description" content="Helppo ja ilmainen laskupohja, jolla voit tallettaa laskun PDF-muodossa">
   <script type="module" src="app.js"></script>
   <script defer data-domain="jomppanen.com" src="https://plausible.io/js/script.js"></script>
+  <link rel="canonical" href="https://www.jomppanen.com/lasku/" />
 </head>
 <body>
   <main data-controller="invoice">
     <form lang="fi" data-invoice-target="form" data-action="line-item:recalculate->invoice#recalculate submit->invoice#preventSubmit">
       <section class="header">
-        <h1>Lasku</h1>
+        <h1>Ilmainen laskupohja</h1>
       </section>
       <section class="invoice-section">
 
