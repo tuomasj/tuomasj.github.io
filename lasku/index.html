@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lasku</title>
+  <link rel="stylesheet" href="invoice.css">
+  <script type="module" src="app.js"></script>
+  <script defer data-domain="jomppanen.com" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+  <main data-controller="invoice">
+    <form lang="fi" data-invoice-target="form" data-action="line-item:recalculate->invoice#recalculate submit->invoice#preventSubmit">
+      <section class="header">
+        <h1>Lasku</h1>
+      </section>
+      <section class="invoice-section">
+
+        <div class="columns">
+          <div class="column recipients invoice-section">
+            <div class="field">
+              <label class="label is-block">Lähettäjä</label>
+              <textarea name="sender" class="textarea is-fullwidth is-large-textarea"></textarea>
+            </div>
+
+            <div class="field">
+              <label class="label is-block">Vastaanottaja</label>
+              <textarea name="recipient" class="textarea is-fullwidth is-large-textarea"></textarea>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="field">
+              <label class="label">Laskun numero</label>
+              <input name="invoice_number" type="text" class="input" value="">
+            </div>
+
+            <div class="field">
+              <label class="label">Laskun päiväys</label>
+              <input name="created_at" type="text" class="input" value="" data-invoice-target="createdAt">
+            </div>
+
+            <div class="field">
+              <label class="label">Laskun eräpäivä</label>
+              <input name="due_date_at" type="text" class="input" value=""  data-invoice-target="dueDateAt">
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <section class="line-items invoice-section">
+        <table class="table is-fullwidth invoice-table">
+          <thead>
+            <tr>
+              <th>Kuvaus</th>
+              <th>Määrä</th>
+              <th>Yks. Hinta</th>
+              <th>Alv%</th>
+              <th>Yhteensä</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody data-invoice-target="lineItems">
+            <tr data-controller="line-item">
+              <td>
+                <input name="line_items[0][description]" type="text" class="input is-fullwidth" data-line-item-target="description">
+              </td>
+              <td>
+                <input data-line-item-target="quantity" name="line_items[0][quantity]" type="text" class="input is-fullwidth" data-action="input->line-item#recalculate">
+              </td>
+              <td>
+                <input data-line-item-target="unitPrice" name="line_items[0][unit_price]" type="text" class="input is-fullwidth" data-action="input->line-item#recalculate">
+              </td>
+              <td>
+                <input data-line-item-target="tax" name="line_items[0][tax]" type="text" class="input is-fullwidth" data-action="input->line-item#recalculate">
+              </td>
+              <td>
+                <input data-line-item-target="amount" name="line_items[0][amount]" type="text" class="input is-fullwidth" value="" readonly="readonly">
+              </td>
+              <td>
+                <button class="button is-small danger" data-action="click->line-item#remove">
+                  <span class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                  </span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="actions">
+          <button class="button" data-action="click->invoice#addLineItem">
+            <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></span>
+            <span>Lisää rivi</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="summary invoice-section">
+        <table class="table is-fullwidth summary-table">
+          <tbody class="total-before-taxes">
+            <tr>
+              <td class="spacing"></td>
+              <td>Yhteensä ilman arvonlisäveroa</td>
+              <td data-invoice-target="amountBeforeTaxes">0,00</td>
+              <td class="spacing"></td>
+            </tr>
+          </tbody>
+          <tbody class="vats" data-invoice-target="vats">
+
+          </tbody>
+          <tbody class="totals">
+            <tr class="tax">
+              <td class="spacing"></td>
+              <td>Arvonlisävero yhteensä</td>
+              <td data-invoice-target="taxesTotal">0,00</td>
+              <td class="spacing"></td>
+            </tr>
+            <tr class="amount">
+              <td class="spacing"></td>
+              <td>Maksettavaa yhteensä</td>
+              <td data-invoice-target="amountAfterTaxes">0,00</td>
+              <td class="spacing"></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="payment-details invoice-section">
+        <div class="field">
+          <label class="label is-block">Laskun lisätiedot</label>
+          <textarea name="description" class="textarea is-fullwidth" data-controller="autogrow" data-action="input->autogrow#grow"></textarea>
+        </div>
+        <br>
+        <div class="columns">
+          <div class="column">
+            <div class="field">
+              <label class="label">IBAN / Tilinumero</label>
+              <input name="iban" type="text" class="input" value="">
+            </div>
+
+            <div class="field">
+              <label class="label">BIC</label>
+              <input name="bic" type="text" class="input" value="">
+            </div>
+
+          </div>
+
+          <div class="column">
+            <div class="field">
+              <label class="label">Viite</label>
+              <input name="reference" type="text" class="input" value="">
+            </div>
+
+            <div class="field">
+              <label class="label">Y-tunnus</label>
+              <input name="business_id" type="text" class="input" value="">
+            </div>
+
+          </div>
+        </div>
+      </section>
+      <section class="footer invoice-section text-centered">
+        <button class="button primary is-large" type="submit" data-action="click->invoice#generate">
+          <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg></span>
+          <span>Tallenna PDF</span>
+        </button>
+      </section>
+    </form>
+  </main>
+
+
+
+</body>
+</html>

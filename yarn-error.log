@@ -1,0 +1,42 @@
+Arguments: 
+  /opt/homebrew/Cellar/node@14/14.21.3_1/libexec/node /opt/homebrew/Cellar/yarn/1.22.19/libexec/bin/yarn.js
+
+PATH: 
+  /opt/homebrew/opt/python@3.10/libexec/bin:/opt/homebrew/opt/openjdk/bin:/opt/homebrew/sbin:/Users/tuomas/.pyenv/shims:/Users/tuomas/.pyenv/bin:/Users/tuomas/.rbenv/shims:/opt/homebrew/opt/libpq/bin:/opt/homebrew/opt/node@14/bin:/opt/homebrew/bin:/Users/tuomas/.rbenv/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/tuomas/.bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  14.21.3
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/tuomas/Projects/src/tuomasj.github.io/package.json: Unexpected token } in JSON at position 75
+      at JSON.parse (<anonymous>)
+      at /opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:310:30)
+      at /opt/homebrew/Cellar/yarn/1.22.19/libexec/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "license" : "MIT",
+    "devDependencies": {
+      "esbuild": "^0.14.44",
+    },
+    "scripts": {
+      "build:html": "bundle exec jekyll build -s docs -d docs/_site --verbose --trace",
+      "watch:html": "bundle exec jekyll serve -s docs -d docs/_site -b ''",
+      "build:js": "./node_modules/.bin/esbuild docs/assets/javascripts/app.js --bundle --minify --outfile=docs/_site/assets/javascripts/main.js",
+      "watch:js": "./node_modules/.bin/esbuild docs/assets/javascripts/app.js --bundle --sourcemap --outfile=docs/_site/assets/javascripts/main.js --watch"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

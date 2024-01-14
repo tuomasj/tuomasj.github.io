@@ -1,0 +1,18 @@
+{
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.19.11"
+  },
+  "scripts": {
+    "build:html": "bundle exec jekyll build -s docs -d docs/_site --verbose --trace",
+    "watch:html": "bundle exec jekyll serve -s docs -d docs/_site -b ''",
+    "build:js": "./node_modules/.bin/esbuild lasku/js/application.js --bundle --minify --outfile=lasku/app.js",
+    "watch:js": "./node_modules/.bin/esbuild lasku/js/application.js --bundle --sourcemap --outfile=lasku/app.js --watch"
+  },
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "currency.js": "^2.0.4",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.1"
+  }
+}
