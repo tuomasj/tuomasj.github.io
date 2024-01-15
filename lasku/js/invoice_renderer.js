@@ -23,6 +23,38 @@ class InvoiceRenderer {
     this.lineHeightFactor = this.document.getLineHeightFactor()
   }
 
+  leadingZeroCreatedAt() {
+    if(this.invoice.created_at && this.invoice.created_at.length > 0) {
+      const elements = this.invoice.created_at.replace(/[/.,]+/g, '.').split(".")
+      if(elements.length >= 2) {
+        return elements.map( el => {
+          if(el.length <= 1) {
+            return "0"+el;
+          } else {
+            return el;
+          }
+        }).join("-")
+      } else {
+        return this.invoice.created_at;
+      }
+    }
+    else
+    {
+      return "";
+    }
+  }
+
+  getFilename() {
+    return [
+            [
+              "lasku",
+              this.invoice.invoice_number,
+              this.leadingZeroCreatedAt()
+            ].filter( node => (node && node.length > 0)).join("-"),
+            ".pdf"
+          ].join("")
+  }
+
   getTextHeight(str, columnWidth) {
     const sizes = this.document.splitTextToSize(str, columnWidth)
     const height = sizes.length * this.lineHeight;// * this.lineHeightFactor; // * this.lineHeight * this.lineHeightFactor;
@@ -46,11 +78,7 @@ class InvoiceRenderer {
     cursorY = this.description(cursorY)
     cursorY = this.payment_details(cursorY)
 
-
-
-    this.document.save("a4.pdf");
-    //this.document.autoPrint();
-
+    this.document.save( this.getFilename());
   }
 
   header(cursorY) {
