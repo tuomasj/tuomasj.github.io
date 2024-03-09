@@ -1,0 +1,70 @@
+---
+layout: plain
+title: Password Generator
+---
+
+<h2>Password Generator</h2>
+
+<p>
+  Generate a long random password to make it very hard for the cyber criminals to guess your password.
+</p>
+
+
+<button id="generate" type="submit">Generate passwords</button>
+
+<div id="results">
+</div>
+
+<hr>
+<br>
+<a href="/">&larr; Back to main</a>
+<br>
+<br>
+<br>
+<style>
+  #results {
+    margin-top: 1rem;
+  }
+  #results pre {
+    margin-bottom: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #f2f2f2;
+
+  }
+  #generate {
+    padding: 0.75rem 0.9rem;
+    text-transform: uppercase;
+  }
+</style>
+<script>
+
+
+  const btn = document.getElementById('generate');
+  const results = document.getElementById('results');
+
+  function generate(len = 12) {
+    const charset = "abcdefghjklmnpqrstuvxyz0123456789";
+    var ret = "";
+    for(var i=0; i<len; i++) {
+      ret += charset.charAt(Math.floor(Math.random() * charset.length));
+    }
+    return ret;
+  }
+
+  btn.addEventListener('click', (ev) => {
+    results.replaceChildren()
+    for(var i=0; i<5; i++) {
+      const password = [
+                        generate(4),
+                        generate(4),
+                        generate(4)
+                        ].join("-")
+      const el = document.createElement('pre')
+      el.textContent = password;
+      results.append(el);
+    }
+    ev.preventDefault();
+  })
+
+</script>
+
