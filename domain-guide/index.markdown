@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Frequently Asked Questions about Internet Domain Names and Websites"
+title: Frequently Asked Questions about Internet Domain Names and Websites
 ---
 
 I regularly find myself in conversations where people ask me questions about internet domain names and websites. Where to buy them? Are they actually useful? How do I get a website running on a domain? 
@@ -33,7 +33,7 @@ Like I said, there are hundreds of TLD's to choose from. But even in 2024, the b
 
 ## Where to buy a domain?
 
-There are lots of domain registrars, and their quality of service can be anything. I've owned domains over 20 years, and here are few my personal guidelines that I *try* to follow:
+There are lots of domain registrars where to buy a internet domain, and their quality of service can be anything. I've owned domains over 20 years, and here are few my personal guidelines that I *try* to follow:
 
 - **Use several registrants** - A cheap way to diversify the risk. If one of your registrants have problems, you still have other domains that you can operate.
 - **Hide your personal details** - Pick a registrant that will hide your personal information from the DNS records. Never use your own personal email in the records, use a technical email such as `domains@example.com`.
@@ -47,11 +47,43 @@ The domain registrants that I have found to be good:
 
 There are so many domain registrants all over the internet. Try "domain registrant" as keywords on your favourite search engine and add your city or country at the end of keywords. I would search for `"domain registrant oulu"` or `"domain registrant finland"` since I live in Oulu, Finland.
 
+Remember, when you buy a domain you also have to renew it each year. If the domain is important to you, make sure that you have automatic renewal turned on and the payment goes through every year.
+
+**If you fail to pay for the domain at the end of billing cycle, you will lose it.** 
+
+If you don't need the domain anymore, you can resell it or just let it expire.
+
+## What is a good domain name?
+
+A good domain name is what your visitors remember even in their sleep. But the domain name itself is not the important part. Your website must provide enough value to your visitors, that they will type the domain on a mobile phone in the middle of Finnish winter, at -25°C. 
+
+When you are researching for possible domain names, and you find a domain name that has `.com` , `.fi` and `.net` available, don't hesitate for a second. Grab all three domain names. The most important TLD is `.com`.
+
+Since there are over 390 million domain names, most likely your preferred domain is taken. If that is the case, then you have to get creative. Add a prefix or a postfix, or something. Back in the day, I came up with `tinyinvoice.com` since `invoice.com` was taken.
+
+Don't get too creative. A good way to test if a domain name is good, is to explain it to your friends or family. Think about the difference between `masterlist.fi` and `masterli.st`, which one is easier to explain? Test the waters before buying it. 
+
+## DNS is the system that runs Internet
+
+The Domain Name System is the system that runs the modern world.  It's the global phone book. If your computer or mobile device has a Internet connection, it can connect to DNS. It's a distributed system that has "nodes" all over the world. 
+
+The nodes are connected to root servers. There are 13 DNS root servers that are the authoritative source of trust for domain names. 
+
+When you buy a domain name, the domain registrant is responsible to inform the DNS about a new domain name. When you make any changes to DNS records of your domain (for example, changing a `CNAME`), it takes few moments for the information spread around all the nodes in the DNS. Sometimes it may even take 24 hours until the changes are propagated all over the world.
+
+Most domain registrars and DNS services have a time-to-live (TTL) component for a DNS record. This number means that how many seconds the record is cached before the information is refreshed. If your TTL is set to 300, it means that any change you make to your domain DNS-records takes about 5 minutes (300 seconds / 60seconds) until the change take effect all over the DNS nodes on Internet.
+
+If you know you are about to make big changes to your DNS records (changing email provider or web hosting service), you have to change the time-to-live to small number (i.e. `60` seconds) at least 24 hours before you start making the change.
+
+When you're happy with your DNS-records and you're done changing them, it's good practice to set TTL to a higher number. For most cases, 24 hours is big enough number, `86400` in seconds.
+
 ## Getting a website online
 
 Ok, got the domain. It's a great domain! What next?
 
-What you are looking for is a **website hosting** service. And like domain registrants, there are thousands and thousands website hosting services. There are global companies and there are local companies. They all offer the same service, connect a domain name with a website by editing A- or CNAME-records on the registrars website. They are part of your domain's DNS records and you have to edit the DNS records, otherwise your website does not work.
+What you are looking for is a **website hosting** service. And like domain registrants, there are thousands and thousands website hosting services. There are global companies and there are local companies. They all offer the same service, connect a domain name with a website by editing `A`- or `CNAME`-records on the registrars website. They are part of your domain's DNS records and you have to edit the DNS records, otherwise your website does not work.
+
+There are tools that you can use to check the DNS records. I use [WhatsMyDNS](https://www.whatsmydns.net/) to check that my `A`, `MX`, or `CNAME` records are set correctly for my domains.
 
 Start small. Get bigger if you have the traffic. If you have 100 visitors per week, you don't need the beefiest service. Hundred visitors per week is such a low number that any kind of web hosting service can handle that easily. 
 
@@ -62,14 +94,13 @@ Website design & hosting services:
 - [Carrd](https://carrd.co/)
 - [Mmm.page](https://mmm.page/)
 
-When you have a HTML+CSS and you are looking for a **static website hosting**:
+When you have a HTML+CSS files ready to go, then you are looking for a **static website hosting**:
 
 - [GitHub Pages](https://pages.github.com/) - Host a static site for free (your website source code is available for everyone),  your website is out there anyway, so it's not a big problem. 
 - [Surge](https://surge.sh/) - Another static site hosting
+- [Netlify](https://netlify.com) - Netlify is a static website hosting company that offers their own services to build dynamic components.
 
-When you buy domain registrant from different service than your website hosting, switching your website hosting service is very easy. 
-
-Buy your domain and website hosting from two different company. Keep them separate and you have more flexibility.
+Buy your domain and website hosting from two different companies. Keep them separate and you have more flexibility.
 
 If possible, make sure that your website has a function or a meaning. It might be a newsletter sign-up form, or buying a SaaS subscription. It can be anything. 
 
@@ -77,68 +108,26 @@ Most cases it's selling or marketing, that's how you grow your business.
 
 If your website has a function, it usually means that the website has a call to action (CTA) that you hope your website visitors perform.
 
-Notice how I did not mention WordPress, SquareSpace or Webflow. They are very good tools in some cases, but not when you're building the first version of the website. Speed is the key, launch fast.
+Notice how I did not mention [WordPress](https://www.wordpress.com/), [SquareSpace](https://www.squarespace.com) or [Webflow](https://www.webflow.com). They are very good tools in some cases, but not when you're building the first version of the website. Speed is the key, launch fast.
 
 ## Sending and receiving emails on an internet domain
 
-Next step is to send and receive emails on your internet domain. Your domain has MX-records, (mail exchanger records) that will the tell email service where to deliver the emails. When you buy a domain, you can edit the DNS records (MX-record too!) of your domain via the registrars service.
+Next step is to send and receive emails on your internet domain. Your domain has `MX`-records, (mail exchanger records) that will the tell email service where to deliver the emails. When you buy a domain, you can edit the DNS records (MX-record too!) of your domain via the registrars service.
 
 - [FastMail](https://www.fastmail.com/) - FastMail allows you to have one mailbox and multiple email domains and aliases. 
 - [ProtonMail](https://www.protonmail.com/) - Allows one mailbox and one custom email domain
-- [PurelyMail](https://www.purelymail.com/) - Really cheap, they offer email
+- [PurelyMail](https://www.purelymail.com/) - Really cheap, they offer only email
 - [MailBox.org](https://mailbox.org/en/) - German, Secure, multiple aliases
 
 Remember, your email is the number one threat vector for cyber criminals. **Use long passwords, and use two-factor authentication for extra security.** 
 
-Also, do not write your email address as plain text on a webpage. The email spammers have automatic email address scrapers that will grab your plain text email from your website into the spammer email list. It's a sure way to be on the receiving end of a spam email. Use a contact form or write your email address on a image and put that on the website.
+Also, do not write your email address as plain text on a webpage. The email spammers have automatic email address scrapers that will grab your plain text email from your website into the spammer's email list. It's a sure way to be on the receiving end of a spam email. Use a contact form or write your email address on a image and put that on the website if you want to share your email address.
 
-## How do I know much visits my website gets?
+## Final words 
 
-Website Analytics or Web Analytics is the software you need. It means that you put a piece of code on every page on your website. Every time someone visits your website, that piece of code will ping back to the web analytics server and record a visit into a database. 
+**Step one:**
+Start. Just start. Don't overthink it. Buy a domain. Build a website.
 
-Many web analytics tools will also store an unique identifier in your browser. That unique identifier is used to track visitors across the internet. For example, Google Analytics is using that unique identifier to track people when they visit different websites across Internet. 
-
-The more web analytics data is collected, it increases the accuracy of personalisation on ads that are displayed to you.
-
-European Union has "cookie" regulation that tried to set limits on the data which is being collected on Internet users, but instead of collecting less data, website analytics tools started to ask permission to continue collect all the data they can. That's why websites in Europe have that annoying cookie banner.
-
-But luckily you don't have to annoy your users with cookie banner if you use privacy-friendly web analytics. 
-
-Please use privacy friendly web analytics tool.
-
-Here are few web analytics tools that are privacy friendly: 
-
-- [Plausible](https://www.plausible.io)
-- [SimpleAnalytics](https://www.simpleanalytics.com)
-
-I'm using self-hosted version on Plausible and I have been happy with it. It has all the features that I need.
-
-## How do I get visitors for my website?
-
-Short answer: by providing value for your target audience.
-
-Long answer: Write great content, content that teaches something, content that makes people laugh, content that makes people think. Provide great value to the visitors. That is how you get visitors to your website.
-
-Of course, "build and they will come" does not work. You have to get your website in front of your target audience, build the traffic. Go where your target audience is, learn the rules of the platform, and somehow let them know that you exist. Please don't spam, nobody likes spam. Be smart, be creative.
-
-The website traffic (of the visitors) can be categorised as paid, direct and organic:
-
-**Paid traffic** means that you buy an ad, a person sees your ad, clicks the ad and get taken your website. This is how Google and Facebook make their money. They want users to spend as much time as possible on their network of websites, so they can show ads (which somebody else bought!). It's also the reason they collect so much information about everybody, so the people buying ads can target them very accurately, and increase the relevancy of the ad.
-
-**Direct traffic** means that somebody typed `jomppanen.com` on their browser address bar and pressed enter. This is the best kind of traffic. It means the visitor has either bookmarked your website or they just remember the address.
-
-**Organic traffic** means that a person types keywords into search engine and sees your webpage listed on the search results. They click the result and they are redirected to your website. When you optimise your website content so that your target audience can find it via search engines, it is called **search engine optimisation** (SEO). 
-
-Once you know what kind of traffic your website gets, then you can start thinking about **conversion rate**. What percentage of the website visitors perform the main call to action (CTA). 
-
-For example, your SaaS home page gets 1000 visitors per week, and 14 of them start a new subscription (CTA). It means your website has 1.4% conversion rate. 
-
-- How do you improve your website to get +10% in conversion rate?
-- What do you need to do to increate visitors by +1000 per week?
-
-See how marketing starts to look like simple math? You do an experiment and measure it -- if the experiment works, keep doing it. 
-
-## Final words
-
-Start. Just start. Build a website. Get a domain. It's going to be so much fun! 
+**Step two:**
+Acquire visitors to your website.
 
