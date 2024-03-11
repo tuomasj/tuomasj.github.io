@@ -245,8 +245,9 @@ description: Do you want to run your own website with your own domain name? This
     <li class="list-item">
       <input type="checkbox" class="status-checkbox" id="checkbox-500">
       <label for="checkbox-500">
-        Update DNS-records on domain registrant service (instructions provided by web hosting service)
+        Update DNS-records on your domain registrant
       </label>
+
     </li>
     <li class="list-item">
       <input type="checkbox" class="status-checkbox" id="checkbox-600">
@@ -299,6 +300,7 @@ description: Do you want to run your own website with your own domain name? This
   }
 
   .list-item label {
+    user-select: none;
     margin-top: 0.5rem;
     line-height: 1.2;
     font-size: 20px;
@@ -320,6 +322,21 @@ description: Do you want to run your own website with your own domain name? This
     background-color: #7cb85c;
     transition: 0.2s ease-in-out;
     pointer-events: none;
+  }
+
+  .flex-break {
+    flex-basis: 100%;
+    height: 0;
+  }
+  .list-item .description {
+    width: 100%;
+    color: #999;
+    font-size: 14px;
+    margin-top: 0.2rem;
+    padding-right: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .list-item[data-status="checked"] > label::after {
