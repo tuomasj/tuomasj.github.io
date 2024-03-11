@@ -40,7 +40,7 @@ description: Do you want to run your own website with your own domain name? This
   Some countries strike a gold mine with their TLD. Antigua from the Caribbean got $30 million dollar revenue in 2023 (reportedly!) from their country code TLD called <code>.ai</code>.
 </p>
 <p>
-  Like I said, there are hundreds of TLD&#39;s to choose from. But even in 2024, the best TLD (a.k.a. the part after last comma) is still <code>.com</code>, try to get it and if it taken, go with other TLD&#39;s.
+  Like I said, there are hundreds of TLD&#39;s to choose from. But even in 2024, the best TLD (a.k.a. the part after last period) is still <code>.com</code>, try to get it and if it taken, go with other TLD&#39;s.
 </p>
 
 <h2 id="where-to-buy-a-domain-">Where to buy a domain?</h2>
@@ -206,65 +206,69 @@ description: Do you want to run your own website with your own domain name? This
 
 <h2 id="final-words">Final words</h2>
 <p>
-  I hope this article answers your questions on internet domains and websites. To get started, follow the checklist below.
+  I hope this article answers your questions on internet domains and websites. Just do it! Get a domain, build a website, acquire visitors! 💪
+</p>
+<p>
+  To help you get started, you can follow the checklist below.
 </p>
 
+<br>
 <br>
 <h3>Checklist for a website with own custom domain:</h3>
 <br>
 <div class="clear-all">
   <ul>
     <li class="list-item" data-status="checked">
-      <input type="checkbox" class="status-checkbox" checked>
-      <label>
+      <input type="checkbox" class="status-checkbox" checked id="checkbox-100">
+      <label for="checkbox-100">
         Read this article
       </label>
     </li>
     <li class="list-item">
-      <input type="checkbox" class="status-checkbox">
-      <label>
+      <input type="checkbox" class="status-checkbox" id="checkbox-200">
+      <label for="checkbox-200">
         Buy a domain name from domain registrant
       </label>
     </li>
     <li class="list-item">
-      <input type="checkbox" class="status-checkbox">
-      <label>
+      <input type="checkbox" class="status-checkbox" id="checkbox-300">
+      <label for="checkbox-300">
         Set TTL to a low number
       </label>
     </li>
     <li class="list-item">
-      <input type="checkbox" class="status-checkbox">
-      <label>
+      <input type="checkbox" class="status-checkbox" id="checkbox-400">
+      <label for="checkbox-400">
         Buy web hosting
       </label>
     </li>
     <li class="list-item">
-      <input type="checkbox" class="status-checkbox">
-      <label>
+      <input type="checkbox" class="status-checkbox" id="checkbox-500">
+      <label for="checkbox-500">
         Update DNS-records on domain registrant service (instructions provided by web hosting service)
       </label>
     </li>
     <li class="list-item">
-      <input type="checkbox" class="status-checkbox">
-      <label>
+      <input type="checkbox" class="status-checkbox" id="checkbox-600">
+      <label for="checkbox-600">
         Check DNS-record probagation using WhatsMyDNS.net
       </label>
     </li>
     <li class="list-item">
-      <input type="checkbox" class="status-checkbox">
-      <label>
+      <input type="checkbox" class="status-checkbox" id="checkbox-700">
+      <label for="checkbox-700">
         Do a test run of your website with a desktop and mobile browser
       </label>
     </li>
     <li class="list-item">
-      <input type="checkbox" class="status-checkbox">
-      <label>
+      <input type="checkbox" class="status-checkbox" id="checkbox-800">
+      <label for="checkbox-800">
         Start building your website by building a useful website
       </label>
     </li>
     <li class="list-item">
-      <input type="checkbox" class="status-checkbox">
-      <label>
+      <input type="checkbox" class="status-checkbox" id="checkbox-900">
+      <label for="checkbox-900">
         Start acquiring visitors
       </label>
     </li>
@@ -292,7 +296,6 @@ description: Do you want to run your own website with your own domain name? This
     display: flex;
     align-items: center;
     line-height: 2;
-
   }
 
   .list-item label {
@@ -325,6 +328,7 @@ description: Do you want to run your own website with your own domain name? This
 
   input[type="checkbox"].status-checkbox {
     align-self: start;
+    flex-shrink: 0;
     margin-top: 0.6rem;
     cursor: pointer;
     appearance: none;
@@ -333,6 +337,7 @@ description: Do you want to run your own website with your own domain name? This
     height: 20px;
     border-radius: 0.3rem;
     transition: background-color 0.25s;
+    background-size: 20px 20px;
     background-color: #ffffff;
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"><path stroke-linecap="round" stroke-width="2.5" stroke-linejoin="round" d="m7 13 4 3.5 6-9" stroke="%23ffffff"/></svg>');
   }
@@ -354,3 +359,13 @@ description: Do you want to run your own website with your own domain name? This
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-width="2.5" stroke-linejoin="round" d="m7 13 4 3.5 6-9" stroke="%23fff"/></svg>');
   }
 </style>
+
+<script>
+
+  document.querySelectorAll('.status-checkbox').forEach( (el) => {
+    el.addEventListener('change', (el) => {
+      const parent = el.target.parentNode;
+      parent.dataset.status = el.target.checked ? "checked" : "";
+    });
+  });
+</script>
