@@ -299,12 +299,14 @@ Create all the required directories mentioned earlier. In this example, the appl
 
 ```bash
 $ cd /var/www
-$ sudo mkdir -p apps/masterlist
-$ sudo mkdir -p apps/masterlist/logs
-$ sudo mkdir -p apps/masterlist/tmp/pids
-$ sudo mkdir -p apps/masterlist/tmp/sockets
-$ sudo mkdir -p apps/masterlist/tmp/shared/storage
-$ sudo mkdir -p apps/masterlist/releases
+$ sudo mkdir apps
+$ cd apps
+$ sudo mkdir -p masterlist
+$ sudo mkdir -p masterlist/logs
+$ sudo mkdir -p masterlist/tmp/pids
+$ sudo mkdir -p masterlist/tmp/sockets
+$ sudo mkdir -p masterlist/tmp/shared/storage
+$ sudo mkdir -p masterlist/releases
 $ sudo chown -R deploy:deploy masterlist # make sure the `deploy`-user owns the directories
 ```
 
