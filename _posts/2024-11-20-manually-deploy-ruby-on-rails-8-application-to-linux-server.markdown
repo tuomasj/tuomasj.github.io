@@ -60,7 +60,7 @@ If you want to know more, head to SSH's website for details about [public-key au
 
 ## Setting up the server
 
-First, let's try the public key authentication. Use SSH to connect your server:
+First, let's try the public key authentication. Use SSH to connect your server as `deploy`-user:
 
 ```bash
 $ ssh deploy@example.com
@@ -84,7 +84,7 @@ Last login: Thu Nov 21 15:25:13 2024 from 12.34.56.78
 deploy@example.com:~$
 ```
 
-After that install the following packages:
+Let's install few packages that you are going to need. We're going to use `sudo` command which runs the commands as `root`-user.
 
 ```shell
 $ sudo apt update
@@ -104,7 +104,11 @@ www-data   59330  0.0  0.2  67016 11432 ?        S    Nov17   0:15 nginx: worker
 www-data   59331  0.0  0.2  66908 11056 ?        S    Nov17   0:00 nginx: worker process
 ```
 
-If the Nginx is running, then it should respond to your browser when you use `http://example.com`.
+### Adding a web site to Nginx
+
+In Ubuntu Linux, Nginx web server lives in `/etc/nginx/`-directory. The main configuration file is `/etc/nginx/nginx.conf`.
+
+To keep the main configuration file clean and simple, there are `/etc/nginx/sites-available` and `/etc/nginx/sites-enabled` directories to store the site-specific configuration files. They are also known as virtual hosts, you can have multiple virtual hosts running on one server. For example, you can have `example.com` and `anotherexample.com` sites running in one Nginx server. It also means you can run multiple Ruby on Rails applications in one server, as long as the server has enough memory and CPU capacity.
 
 ## Securing the connection with Let's Encrypt
 
@@ -112,7 +116,87 @@ If the Nginx is running, then it should respond to your browser when you use `ht
   Please note, you need a server with public IP-address and a domain name pointing to that IP-adddress in order to continue.
 </div>
 
+In order to secure the HTTP connection, you need to have SSL sertificate. Let's Encrypt is a non-profit organization that provides free SSL-sertificates and they have a tools to automatically provision the sertificates. Before Let's Encrypt, SSL sertificate management was hard and painful, and you had to buy the sertificate from commercial certificate authority.
 
+With Let's Encrypt, you just run few unix commands and you have a working SSL-sertificate securing your web applications. ❤️
+
+Install a tool called `certbot` for certificate management. Follow the [installation instructions](https://certbot.eff.org/instructions?ws=nginx&os=ubuntubionic) on Certbot homepage.
+
+Once you installed a SSL certificate, make sure to test it with your browser. If you see a lock-symbol (🔒) on start of the address bar, you have HTTPS-connection.
+
+## Nginx configuration
+
+This is the Nginx configuration file for Ruby on Rails application. It is located in `/etc/nginx/sites-available` and then it's symlinked to `/etc/nginx/sites-enabled`.
+
+It has following directives:
+- Defines the domains to listen for (in this case, it's masterlist.fi)
+- Configures the socket file to communicate with Puma
+- Let's Encrypt SSL configuration
+- Directive to server static assets directly from Nginx (no need for Puma to handle those)
+
+Example Nginx virtual host file:
+
+```
+# /etc/nginx/sites-available/masterlist
+
+upstream rails_app {
+    server unix:///var/www/apps/masterlist/tmp/sockets/puma.sock fail_timeout=0;
+}
+
+server {
+    server_name masterlist.fi;
+    root /var/www/apps/masterlist/current/public;
+
+    location ^~ /assets/ {
+        gzip_static on;
+        expires max;
+        add_header Cache-Control public;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    location / {
+        proxy_pass http://rails_app;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_redirect off;
+
+        # WebSocket support (if needed)
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/masterlist.fi/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/masterlist.fi/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+server {
+    if ($host = masterlist.fi) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name masterlist.fi;
+    return 404; # managed by Certbot
+}
+```
+To test if the configuration files are valid, run the following:
+
+```bash
+$ sudo nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+```
+
+If everything is working, you need to restart Nginx by `sudo service nginx restart`. To see the status of Nginx, you can use `sudo service nginx status` command.
+
+Finally, you can test if the web server is responding by browsing to https://example.com, remember to use your own domain.
 
 ## Running you Ruby on Rails application with Puma
 
@@ -129,6 +213,51 @@ You can check if Ruby was installed correctly by running `which ruby`, the outpu
 ```bash
 bob@example:~$ which ruby
 /home/deploy/.rbenv/shims/ruby
+```
+
+### Configuring Puma
+
+Puma needs some instructions so it can run your web application, so you need to create a file called `config/puma.rb` and add some instructions.
+
+In the example file below, the Puma is configured to communicate to Nginx using sockets. Log files will be written into `tmp/`-directory in your application root directory.
+
+Word of warning, I have given zero thoughts on thread configuration, soso regarding thread counts for your appication, you have to do your own research. This file has some good defaults, so it's a good starting point.
+
+```ruby
+# config/puma.rb
+
+if ENV.fetch("RAILS_ENV", nil) == "production"
+  environment ENV.fetch("RAILS_ENV") { "production" }
+  directory '/var/www/apps/masterlist/current'
+
+  # Set up socket and pid files
+  bind "unix:///var/www/apps/masterlist/tmp/sockets/puma.sock"
+  pidfile "/var/www/apps/masterlist/tmp/pids/puma.pid"
+  state_path "/var/www/apps/masterlist/tmp/pids/puma.state"
+
+  # Logging
+  stdout_redirect "/var/www/apps/masterlist/logs/puma.stdout.log",
+                  "/var/www/apps/masterlist/logs/puma.stderr.log",
+                  true
+
+  # Preload app for better performance
+  preload_app!
+
+  # Handle worker boot
+  on_worker_boot do
+    ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+  end
+
+  # Allow puma to be restarted by `rails restart` command
+  plugin :tmp_restart
+
+  # Workers (processes)
+  workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+end
+
+# Threading configuration
+threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
+threads threads_count, threads_count
 ```
 
 ### Directory structure on your production server
@@ -220,8 +349,6 @@ $ cd current
 $ RAILS_ENV=production bin/rails console
 ```
 
-
-
 But before that, we need to setup the ruby on rails application.
 
 ### Setting up the application
@@ -240,6 +367,32 @@ $ RAILS_ENV=production bin/rails assets:precompile
 ```
 Again, make sure you're in production environment by writing `RAILS_ENV=production` before `bin/rails assets:precompile`.
 
+## Test run with Puma
+
+Finally it's time to start the Ruby on Rails application and that's the job for Puma. To test that everything works, first let's start our application manually.
+
+```bash
+$ cd /var/www/apps/masterlist/current
+$ RAILS_ENV=production bundle exec puma -C config
+/puma.rb
+```
+
+The output should look something like this:
+```
+[191034] Puma starting in cluster mode...
+[191034] * Puma version: 6.4.3 (ruby 3.3.3-p89) ("The Eagle of Durango")
+[191034] *  Min threads: 5
+[191034] *  Max threads: 5
+[191034] *  Environment: production
+[191034] *   Master PID: 191034
+[191034] *      Workers: 2
+[191034] *     Restarts: (✔) hot (✖) phased
+[191034] * Preloading application
+[191034] * Listening on unix:///var/www/apps/masterlist/tmp/sockets/puma.sock
+[191034] Use Ctrl-C to stop
+```
+
+The line `Listening on unix:///var/www/apps/masterlist/tmp/sockets/puma.sock` means that now Nginx and Puma have a way for communicating with each other.
 
 
 
