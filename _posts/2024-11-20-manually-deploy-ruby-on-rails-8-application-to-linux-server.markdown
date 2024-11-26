@@ -1,14 +1,10 @@
 ---
 layout: post
 title: "Manually deploy Ruby on Rails 8 application to Linux server"
-category: false
 ---
+This article describes how you can manually deploy your Ruby on Rails 8 application on a Linux Server with as few dependencies as possible. It's all manual, there is no automations [Kamal](https://www.kamal-deploy-org), [Docker](https://www.docker.com) or [Thruster](https://github.com/basecamp/thruster) in this way of deployment. It's just you and linux shell.
 
-<div style="border: 1px solid #5abf73; background-color: #b8edc6; padding: 0.5rem 1rem; text-align: center; margin-bottom: 1.5rem; border-radius: 0.45rem;">
-  This is a draft
-</div>
-
-This article describes how you can manually deploy your Ruby on Rails 8 application on a Linux Server with as few dependencies as possible. It's all manual, there is no automations [Kamal](https://www.kamal-deploy-org), [Docker](https://www.docker.com) or [Thruster](https://github.com/basecamp/thruster) in this way of deployment.
+To make things way easier, I'm assuming your Ruby on Rails application uses SQLite3 for database.
 
 ## Before continuing, here are few things you need to understand
 
@@ -26,32 +22,36 @@ Now that I'm safe for any legal proceedings, let's continue 😅
 
 ## The deployment consists of following building blocks
 
-- **Firewall** - Allows at least HTTPS and HTTP requests, configuring firewall is out of scope of this article
-- **Nginx** - Webserver which handles the requests from the browser, and routes the requests into Puma application server or directly serves static assets from assets directory
-- **Puma** - Application server which runs your Ruby on Rails application
-- **SQLite3** - Database server which is embedded into your Ruby on Rails application
-- **Static assets** - Your Ruby on Rails application has `public/` directory, Nginx will serve these assets directly without using Puma
-- **Let's Encrypt** - Generate SSL certificates so you can use HTTPS
+Here is a high level overview how the server will be set up.
 
 <div style="width: 100%; text-align: center;">
   <img style="width: 50%;" src="/images/simple-deployment-architecture.png">
 </div>
+
+- **Firewall** - Allows at least HTTPS and HTTP requests, remember configuring firewall is out of scope of this article
+- **Nginx** - Webserver which handles the requests from the browser, and routes the requests into Puma application server or directly serves static assets from assets directory
+- **Puma** - Application server which runs your Ruby on Rails application
+- **SQLite3** - Database server which is embedded into your Ruby on Rails application
+- **Static assets** - Your Ruby on Rails application has `public/` directory, Nginx will serve these assets directly without using Puma and saving some precious server resources
+- **Let's Encrypt** - Generate SSL certificates so you can use HTTPS
+
+The Let's Encrypt is missing on the diagram, but it has a background process running that keeps the SSL certificates up-to-date.
 
 ## Creating the deploy user
 
 In this step, you have to connect to your server as root user and create the `deploy` user.
 
 ```bash
-adduser --disabled-password deploy
-usermod -aG sudo deploy
+$ adduser --disabled-password deploy
+$ usermod -aG sudo deploy
 ```
 
 Create a directory for your SSH files and your public key file.
 
 ```bash
-mkdir -p /home/deploy/.ssh
-chown -R deploy:deploy /home/deploy/.ssh
-chmod 700 /home/deploy/.ssh
+$ mkdir -p /home/deploy/.ssh
+$ chown -R deploy:deploy /home/deploy/.ssh
+$ chmod 700 /home/deploy/.ssh
 ```
 
 Append the contents of your SSH public key into `/home/deploy/.ssh/authorized_keys`, most likely the file will be empty or you have to create it.
@@ -112,7 +112,7 @@ To keep the main configuration file clean and simple, there are `/etc/nginx/site
 
 ## Securing the connection with Let's Encrypt
 
-<div  style="border: 1px solid #bf9d5a; background-color: #eddbb8; padding: 0.5rem 1rem; margin-bottom: 1.5rem; border-radius: 0.45rem;">
+<div  style="border: 1px solid #bf9d5a; background-color: lightyellow; padding: 0.5rem 1rem; margin-bottom: 1.5rem; border-radius: 0.45rem;">
   Please note, you need a server with public IP-address and a domain name pointing to that IP-adddress in order to continue.
 </div>
 
@@ -375,8 +375,7 @@ Finally it's time to start the Ruby on Rails application and that's the job for 
 
 ```bash
 $ cd /var/www/apps/masterlist/current
-$ RAILS_ENV=production bundle exec puma -C config
-/puma.rb
+$ RAILS_ENV=production bundle exec puma -C config/puma.rb
 ```
 
 The output should look something like this:
@@ -396,12 +395,175 @@ The output should look something like this:
 
 The line `Listening on unix:///var/www/apps/masterlist/tmp/sockets/puma.sock` means that now Nginx and Puma have a way for communicating with each other.
 
+Puma is now running, but you have to manually monitor the Puma process and restart it if it crashes.
 
+## Unix process management with Systemd
 
-### Unix process management with Systemd
+Ubuntu Linux uses systemd for process management. It starts processes, it stops badly behaving processes, it makes sure processes keep running and if they crash, it restarts them.
 
-## Storing data into SQLite3 database
+Systemd is configured in `/etc/systemd`-directory. There is a directory called `/etc/systemd/system` that contains configuration files for all processes that need managing. It has a huge role of Linux operating system, things need to be running, spice must flow.
 
-## Serving static assets
+For each Ruby on Rails project that is run on the server, it needs a file in `/etc/systemd/system`-directory.
+
+Create a file in this directory and name it after your application. In this example the name of the service file is `masterlist.service`.
+
+```
+[Unit]
+Description=Masterlist (Puma Rails Server)
+After=network.target
+
+[Service]
+Type=simple
+User=deploy
+WorkingDirectory=/var/www/apps/masterlist/current
+Environment=RAILS_ENV=production
+ExecStart=/home/deploy/.rbenv/shims/bundle exec puma -C config/puma.rb
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Create the service file with using `systemctl` tool.
+
+```bash
+$ systemctl edit --force --full masterlist.service
+```
+
+Enable the service and start it too
+
+```bash
+$ systemctl enable --now masterlist.service
+```
+
+Query the status of the service:
+
+```bash
+$ systemctl status servicename.service
+```
+
+In case you need to start or stop the service
+
+```bash
+$ systemctl start servicename.service
+$ systemctl stop servicename.service
+```
+
+If you need to do some troubleshooting, you can find the logs in `/var/www/apps/masterlist/logs`.
+
+Sometimes it helps troubleshooting when you open another terminal window and watch the logs in real-time.
+
+```bash
+$ tail -100f /var/www/apps/masterlist/logs/puma.stdout.log
+```
+
+Press `Control-C` to exit the logs.
 
 ## Automating the deployment
+
+The server is set up, Nginx is running, Let's Encrypt is keeping the connection secure and Puma is hosting Ruby on Rails application. If you do the deployment manually, there are so many steps and so many opportunities to mess things up. I'd suggest you automate that part into a shell script.
+
+To deploy, the newest version of the application is copied to the server into directory that get's it's name from timestamp, and it's then symlinked to `current/`. After that the assets are compiled into `public/`-directory for Nginx to directly host them.
+
+I have the following file in my Ruby on Rails application `bin/`-directory along with Ruby on Rails default commands. I've called it `bin/deplou` since it's not the perfect deployment system but it works for me.
+
+```
+#!/usr/bin/env sh
+
+# Configure your server and application settings
+
+# IP address or domain addres for your production server
+REMOTE_SERVER=188.34.189.36
+
+# User that does the deploy
+REMOTE_USER=deploy
+
+# I've found out it's much easier for me to enforce the Ruby version on the server,
+# then keep all version numbers in sync
+RUBY_VERSION="3.3.3"
+
+# Where you application is located in production server
+REMOTE_APP_DIR=/var/www/apps/masterlist
+
+# You shouldn't need to change anything below
+
+TIMESTAMP=`date +"%Y-%m-%d-%H-%M-%S"`
+
+
+CURRENT_DIR=$REMOTE_APP_DIR/current
+DESTINATION_DIR=$REMOTE_APP_DIR/releases/$TIMESTAMP
+
+SECRET_KEY_FILE=config/master.key
+STORAGE_DIR=$REMOTE_APP_DIR/shared/storage
+
+DATA_DIR=$REMOTE_APP_DIR/shared/videos
+PUBLIC_DIR=$CURRENT_DIR/public
+
+
+run_ssh() {
+    local command=$1
+    ssh $REMOTE_USER@$REMOTE_SERVER "bash -l -c 'source ~/.bashrc && eval \"\$(~/.rbenv/bin/rbenv init -)\" && ${command}'"
+}
+
+# copy files into new folder (ignore a bunch of directories)
+echo "Copying files from local development to production server"
+rsync -av \
+  --exclude-from='.gitignore' \
+  --exclude '.git' \
+  --exclude 'log/*' \
+  --exclude 'tmp/*' \
+  --exclude 'storage/*' \
+  --exclude 'node_modules' \
+  --exclude 'public/assets' \
+  --exclude 'public/packs' \
+  --exclude 'config/credentials/*.key' \
+  --exclude 'config/master.key' \
+  --exclude '.env*' \
+  --exclude 'spec' \
+  --exclude 'test' \
+  --exclude '.rspec' \
+  --exclude 'coverage' \
+  --exclude '.DS_Store' \
+  --exclude '*.sqlite3' \
+  --progress \
+  --delete \
+  ./ $REMOTE_USER@$REMOTE_SERVER:$DESTINATION_DIR
+
+# copy credentials
+echo "Copying credentials..."
+run_ssh "cp ${REMOTE_APP_DIR}/shared/master.key ${DESTINATION_DIR}/config/master.key"
+
+# Enforce running correct ruby version on $remote
+echo "Enforcing Ruby ${RUBY_VERSION} version..."
+run_ssh "cd ${DESTINATION_DIR} && echo ${RUBY_VERSION} > .ruby-version"
+
+# Bundle gems
+echo "Running 'bundle'"
+run_ssh "cd ${DESTINATION_DIR} && which ruby"
+run_ssh "cd ${DESTINATION_DIR} && bundle exec bundle"
+
+# build assets
+echo "Build assets..."
+run_ssh "cd ${DESTINATION_DIR} && RAILS_ENV=production bundle exec rails assets:precompile"
+
+# create symlinks
+echo "Creating symlink ${DESTINATION_DIR} => ${CURRENT_DIR}"
+run_ssh "ln -nsf ${DESTINATION_DIR} ${CURRENT_DIR}"
+
+echo "Creating symlink ${DESTINATION_DIR}/storage => ${STORAGE_DIR}"
+run_ssh "rm -fR ${DESTINATION_DIR}/storage && ln -nsf ${STORAGE_DIR} ${DESTINATION_DIR}/storage"
+
+echo "Restart Puma"
+run_ssh "pumactl -P ${REMOTE_APP_DIR}/tmp/pids/puma.pid restart"
+```
+
+And there you go! You've reached the end of this long article. Everytime you want to deploy your changes, just run `bin/deplou` in your Ruby on Rails application root directory.
+
+## Final words
+
+Here are some things to consider if you start using this way of deployment
+
+- It bypasses version control completely, so you have to make sure you commit your source code into repository
+- The backups are crucial, especially if you have client data, find out way to do regular backups and store the backups somewhere safe
+- Make sure you monitor your system, [rails_performance](https://github.com/igorkasyanchuk/rails_performance) gem might be the thing you need
+- The log files will eventually fill your hard drive and your server will hang, unless you configure a log rotation scheme for your Puma logs and Nginx Logs -- Here is a tutorial [how to manage logs with logrotate](https://betterstack.com/community/guides/logging/how-to-manage-log-files-with-logrotate-on-ubuntu-20-04/#final-thoughts)
