@@ -39,7 +39,9 @@ The Let's Encrypt is missing on the diagram, but it has a background process run
 
 ## Creating the deploy user
 
-In this step, you have to connect to your server as root user and create the `deploy` user.
+In this step, you have to connect to your server as `root` user and create the `deploy` user.
+
+With `--disabled-password` option, `deploy`-user cannot authenticate using password. The only way to do authentication will be public-key authentication
 
 ```bash
 $ adduser --disabled-password deploy
@@ -55,6 +57,22 @@ $ chmod 700 /home/deploy/.ssh
 ```
 
 Append the contents of your SSH public key into `/home/deploy/.ssh/authorized_keys`, most likely the file will be empty or you have to create it.
+
+Change the ownership to `deploy` and limit the file privileges so that SSH process can only read the file. SSH's public key authentication will not work unless the file privileges are
+
+```bash
+$ chown deploy:deploy /home/deploy/.ssh/authorized_keys
+$ chmod 700 /home/deploy/.ssh/authorized_keys
+```
+
+If you want to make sure, you can check the file privileges with `ls -la`.
+
+```bash
+$ ls -la ~/.ssh/authorized_keys
+-rw-r--r-- 1 deploy deploy 748 Nov 27 07:48 /home/deploy/.ssh/authorized_keys
+```
+
+That is the only part where you need `root`-user, from now on you will be using `deploy`-user when logging in to your production server via SSH.
 
 If you want to know more, head to SSH's website for details about [public-key authentication](https://www.ssh.com/academy/ssh/public-key-authentication).
 
