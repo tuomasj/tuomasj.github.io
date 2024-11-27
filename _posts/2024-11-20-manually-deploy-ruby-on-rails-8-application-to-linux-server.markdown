@@ -72,6 +72,18 @@ $ ls -la ~/.ssh/authorized_keys
 -rw-r--r-- 1 deploy deploy 748 Nov 27 07:48 /home/deploy/.ssh/authorized_keys
 ```
 
+Give `deploy`-user root-privileges by editing the `sudoers`-file. Since `deploy`-user does not have a password, it needs to be disabled on sudoers file as well, otherwise it will ask password when running commands via sudo.
+
+```bash
+$ visudo
+```
+
+Add this line at the end of file:
+
+```
+deploy ALL=(ALL) NOPASSWD:ALL
+```
+
 That is the only part where you need `root`-user, from now on you will be using `deploy`-user when logging in to your production server via SSH.
 
 If you want to know more, head to SSH's website for details about [public-key authentication](https://www.ssh.com/academy/ssh/public-key-authentication).
@@ -86,14 +98,24 @@ $ ssh deploy@example.com
 
 If you see Ubuntu Linux welcome message, you are good to go!
 
-```
-$ ssh deploy@example.com
-Welcome to Ubuntu 22.04.5 LTS (GNU/Linux 5.15.0-122-generic aarch64)
+```bash
+$ ssh deploy@masterlist.fi
+Welcome to Ubuntu 24.04 LTS (GNU/Linux 6.8.0-31-generic x86_64)
 
  * Documentation:  https://help.ubuntu.com
  * Management:     https://landscape.canonical.com
  * Support:        https://ubuntu.com/pro
 
+ System information as of Wed Nov 27 07:57:18 AM UTC 2024
+
+  System load:           0.0
+  Usage of /:            28.3% of 9.76GB
+  Memory usage:          33%
+  Swap usage:            0%
+  Processes:             99
+  Users logged in:       1
+  IPv4 address for eth0: << redacted >>
+  IPv6 address for eth2: << redacted >>
 ...
 <<-- clip -->>
 ...
@@ -104,7 +126,7 @@ deploy@example.com:~$
 
 Let's install few packages that you are going to need. We're going to use `sudo` command which runs the commands as `root`-user.
 
-```shell
+```bash
 $ sudo apt update
 $ sudo apt install -y curl git-core nginx nodejs npm yarn ruby-full build-essential libsqlite3-dev
 ```
