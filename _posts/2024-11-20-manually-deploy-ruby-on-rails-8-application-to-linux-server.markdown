@@ -13,6 +13,13 @@ It's fair to mention that there are easier options for deploying Ruby on Rails a
 
 I've tried both options, but I wanted even simpler way to deploy my applications. That's where this blog post came from.
 
+<div style="border: 1px solid #136d4f; background-color: #b9f4a9; padding: 0.5rem 1rem; margin-bottom: 1.5rem; border-radius: 0.45rem;">
+  This blog post was used to successfully deploy Ruby on Rails application on a server running Ubuntu Linux in front of a live audience in Nov 28, 2024. The server specs were 1x CPU, 1GB memory, 10GB storage, $3/mo from <a href="https://upcloud.com/signup/?promo=MYZCV5">Upcloud</a>.
+  <br>
+  <small>Disclaimer: The link contains a referal code.</small>
+</div>
+
+
 ## Before continuing, here are few things you need to understand
 
 - In this article, `example.com` will be used as a placeholder for your own domain or IP-address, adjust accordingly
@@ -288,7 +295,7 @@ $ gem install bundler
 
 ### Configuring Puma
 
-Puma needs some instructions so it can run your web application, so you need to create a file called `config/puma.rb` and add some instructions.
+Puma needs some instructions so it can run your web application, so you need to create a file called `config/puma.rb` in your Ruby on Rails project in your local development environment.
 
 In the example file below, the Puma is configured to communicate to Nginx using sockets. Log files will be written into `tmp/`-directory in your application root directory.
 
@@ -352,7 +359,7 @@ The directory structure for Ruby on Rails application deployment looks like this
 .
 └── apps
     └── masterlist
-        ├── current -> var/www/apps/masterlist/releases/2024-11-22-13-30
+        ├── current -> /var/www/apps/masterlist/releases/2024-11-22-13-30
         ├── logs
         ├── releases
         │   ├── 2024-11-21-07-45
@@ -442,7 +449,7 @@ Back on the production server, we can create the symbolic link (a.k.a. symlink).
 
 ```bash
 # make sure you are in /var/www/apps/masterlist directory
-$ ln -sf releases/2024-11-22-14-44-59 current
+$ ln -sf releases/2024-11-27-11-14-44/ current
 ```
 
 Install gems for your application
