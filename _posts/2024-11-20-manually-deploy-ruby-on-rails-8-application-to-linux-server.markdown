@@ -6,6 +6,13 @@ This blog post describes how to manually set up and deploy your Ruby on Rails 8 
 
 To make things way easier, I'm assuming your Ruby on Rails application uses SQLite3 for database.
 
+It's fair to mention that there are easier options for deploying Ruby on Rails applications:
+
+- [Kamal](https://www.kamal-deploy.org) is the "offical" tool for deploying Ruby on Rails 8 applications (requires Docker)
+- [Capistrano](https://capistranorb.com/) is a battle-tested deployment tool and it's been around since the early days of Ruby on Rails
+
+I've tried both options, but I wanted even simpler way to deploy my applications. That's where this blog post came from.
+
 ## Before continuing, here are few things you need to understand
 
 - In this article, `example.com` will be used as a placeholder for your own domain or IP-address, adjust accordingly
