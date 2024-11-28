@@ -2,13 +2,13 @@
 layout: post
 title: "Manually deploy Ruby on Rails 8 application to Linux server"
 ---
-This article describes how you can manually deploy your Ruby on Rails 8 application on a Linux Server with as few dependencies as possible. It's all manual, there is no automations [Kamal](https://www.kamal-deploy-org), [Docker](https://www.docker.com) or [Thruster](https://github.com/basecamp/thruster) in this way of deployment. It's just you and linux shell.
+This blog post describes how to manually set up and deploy your Ruby on Rails 8 application on a Linux Server with as few dependencies as possible. It's all manual, there is no automations or containers. No Cloud orchestration. It's just you and your Linux server.
 
 To make things way easier, I'm assuming your Ruby on Rails application uses SQLite3 for database.
 
 ## Before continuing, here are few things you need to understand
 
-- In this article, `example.com` will be used as a placeholder for your own domain or IP-address
+- In this article, `example.com` will be used as a placeholder for your own domain or IP-address, adjust accordingly
 - You have to configure the firewall
 - You have to secure the SSH server
 - You have a SSH public key on your own local development machine
@@ -18,7 +18,7 @@ To make things way easier, I'm assuming your Ruby on Rails application uses SQLi
 - You can host multiple Ruby on Rails applications in same server by using this method, but you have to understand that apps are deployed using same unix user `deploy` and therefore are able to write each other directories
 - Finally the disclaimer: If you follow the instructions of this article, you will do it at your own risk -- I will take no responsibility at all
 
-Now that I'm safe for any legal proceedings, let's continue 😅
+Now that I'm safe for any legal proceedings, let's start 😅
 
 ## The deployment consists of following building blocks
 
