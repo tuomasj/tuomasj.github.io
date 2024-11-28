@@ -143,7 +143,7 @@ This will install Git, Nginx, NodeJS, Yarn, Npm, development libraries and SQLit
 Install Yarn since Ruby on Rails uses it.
 
 ```bash
-$ npm install --global yarn
+$ sudo npm install --global yarn
 ```
 
 ## Hosting website via Nginx
