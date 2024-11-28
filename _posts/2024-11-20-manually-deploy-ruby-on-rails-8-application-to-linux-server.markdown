@@ -380,7 +380,7 @@ $ sudo mkdir -p masterlist
 $ sudo mkdir -p masterlist/logs
 $ sudo mkdir -p masterlist/tmp/pids
 $ sudo mkdir -p masterlist/tmp/sockets
-$ sudo mkdir -p masterlist/tmp/shared/storage
+$ sudo mkdir -p masterlist/shared/storage
 $ sudo mkdir -p masterlist/releases
 $ sudo chown -R deploy:deploy masterlist # make sure the `deploy`-user owns the directories
 ```
