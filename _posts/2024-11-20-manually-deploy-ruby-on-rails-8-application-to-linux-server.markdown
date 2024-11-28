@@ -8,7 +8,7 @@ To make things way easier, I'm assuming your Ruby on Rails application uses SQLi
 
 It's fair to mention that there are easier options for deploying Ruby on Rails applications:
 
-- [Kamal](https://www.kamal-deploy.org) is the "offical" tool for deploying Ruby on Rails 8 applications (requires Docker)
+- [Kamal](https://kamal-deploy.org/) is the "offical" tool for deploying Ruby on Rails 8 applications (requires Docker)
 - [Capistrano](https://capistranorb.com/) is a battle-tested deployment tool and it's been around since the early days of Ruby on Rails
 
 I've tried both options, but I wanted even simpler way to deploy my applications. That's where this blog post came from.
