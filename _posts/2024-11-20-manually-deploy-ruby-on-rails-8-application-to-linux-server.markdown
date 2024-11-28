@@ -550,14 +550,14 @@ $ sudo systemctl enable --now masterlist.service
 Query the status of the service:
 
 ```bash
-$ sudo systemctl status servicename.service
+$ sudo systemctl status masterlist.service
 ```
 
 In case you need to start or stop the service
 
 ```bash
-$ sudo systemctl start servicename.service
-$ sudo systemctl stop servicename.service
+$ sudo systemctl start masterlist.service
+$ sudo systemctl stop masterlist.service
 ```
 
 If you need to do some troubleshooting, you can find the logs in `/var/www/apps/masterlist/logs`.
