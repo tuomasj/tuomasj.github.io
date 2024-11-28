@@ -243,7 +243,17 @@ nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
 nginx: configuration file /etc/nginx/nginx.conf test is successful
 ```
 
-If everything is working, you need to restart Nginx by `sudo service nginx restart`. To see the status of Nginx, you can use `sudo service nginx status` command.
+If everything is working, you need to restart Nginx:
+
+```bash
+$ sudo systemctl restart nginx
+```
+
+To see the status of Nginx:
+
+```bash
+$ sudo systemctl status nginx
+```
 
 ## Securing the connection with Let's Encrypt
 
@@ -558,20 +568,21 @@ $ sudo systemctl edit --force --full masterlist.service
 Enable the service and start it too
 
 ```bash
-$ sudo systemctl enable --now masterlist.service
+$ sudo systemctl enable --now masterlist
 ```
 
 Query the status of the service:
 
 ```bash
-$ sudo systemctl status masterlist.service
+$ sudo systemctl status masterlist
 ```
 
 In case you need to start or stop the service
 
 ```bash
-$ sudo systemctl start masterlist.service
-$ sudo systemctl stop masterlist.service
+$ sudo systemctl start masterlist
+$ sudo systemctl stop masterlist
+$ sudo systemctl restart masterlist # stop the service and start it again
 ```
 
 If you need to do some troubleshooting, you can find the logs in `/var/www/apps/masterlist/logs`.
