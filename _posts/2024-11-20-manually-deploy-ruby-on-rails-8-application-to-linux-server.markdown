@@ -75,8 +75,8 @@ $ chmod 700 /home/deploy/.ssh/authorized_keys
 If you want to make sure, you can check the file privileges with `ls -la`.
 
 ```bash
-$ ls -la ~/.ssh/authorized_keys
--rw-r--r-- 1 deploy deploy 748 Nov 27 07:48 /home/deploy/.ssh/authorized_keys
+$ ls -la /home/deploy/.ssh/authorized_keys
+-rwx------ 1 deploy deploy 748 Nov 27 07:48 /home/deploy/.ssh/authorized_keys
 ```
 
 Give `deploy`-user root-privileges by editing the `sudoers`-file. Since `deploy`-user does not have a password, it needs to be disabled on sudoers file as well, otherwise it will ask password when running commands via sudo.
