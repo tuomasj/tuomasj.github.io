@@ -96,7 +96,7 @@ First, let's try the public key authentication. Use SSH to connect your server a
 $ ssh deploy@example.com
 ```
 
-If you see Ubuntu Linux welcome message, you are good to go!
+If you see Ubuntu Linux welcome message, you are good to go! The IP-addresses are different for each server.
 
 ```bash
 $ ssh deploy@masterlist.fi
@@ -114,24 +114,30 @@ Welcome to Ubuntu 24.04 LTS (GNU/Linux 6.8.0-31-generic x86_64)
   Swap usage:            0%
   Processes:             99
   Users logged in:       1
-  IPv4 address for eth0: << redacted >>
-  IPv6 address for eth2: << redacted >>
+  IPv4 address for eth0: 192.168.2.1
+  IPv6 address for eth2: 0000:0000:0000:0000:0000:ffff:c0a8:0201
 ...
 <<-- clip -->>
 ...
 
 Last login: Thu Nov 21 15:25:13 2024 from 12.34.56.78
-deploy@example.com:~$
+$
 ```
 
 Let's install few packages that you are going to need. We're going to use `sudo` command which runs the commands as `root`-user.
 
 ```bash
 $ sudo apt update
-$ sudo apt install -y curl git-core nginx nodejs npm yarn ruby-full build-essential libsqlite3-dev
+$ sudo apt install -y curl git-core nginx nodejs npm yarn ruby-full build-essential libsqlite3-dev libffi-dev libyaml-dev zlib1g-dev
 ```
 
 This will install Git, Nginx, NodeJS, Yarn, Npm, development libraries and SQLite3.
+
+Install Yarn since Ruby on Rails uses it.
+
+```bash
+$ npm install --global yarn
+```
 
 ## Hosting website via Nginx
 
@@ -144,34 +150,38 @@ www-data   59330  0.0  0.2  67016 11432 ?        S    Nov17   0:15 nginx: worker
 www-data   59331  0.0  0.2  66908 11056 ?        S    Nov17   0:00 nginx: worker process
 ```
 
+When you open your domain with a browser, you will see the default Nginx welcome-screen.
+
+<div style="width: 100%; text-align: center;">
+  <img style="width: 80%;" src="/images/nginx-welcome-screen.png">
+</div>
+
+
 ### Adding a web site to Nginx
 
 In Ubuntu Linux, Nginx web server lives in `/etc/nginx/`-directory. The main configuration file is `/etc/nginx/nginx.conf`.
 
 To keep the main configuration file clean and simple, there are `/etc/nginx/sites-available` and `/etc/nginx/sites-enabled` directories to store the site-specific configuration files. They are also known as virtual hosts, you can have multiple virtual hosts running on one server. For example, you can have `example.com` and `anotherexample.com` sites running in one Nginx server. It also means you can run multiple Ruby on Rails applications in one server, as long as the server has enough memory and CPU capacity.
 
-## Securing the connection with Let's Encrypt
-
-<div  style="border: 1px solid #bf9d5a; background-color: lightyellow; padding: 0.5rem 1rem; margin-bottom: 1.5rem; border-radius: 0.45rem;">
-  Please note, you need a server with public IP-address and a domain name pointing to that IP-adddress in order to continue.
-</div>
-
-In order to secure the HTTP connection, you need to have SSL sertificate. Let's Encrypt is a non-profit organization that provides free SSL-sertificates and they have a tools to automatically provision the sertificates. Before Let's Encrypt, SSL sertificate management was hard and painful, and you had to buy the sertificate from commercial certificate authority.
-
-With Let's Encrypt, you just run few unix commands and you have a working SSL-sertificate securing your web applications. ❤️
-
-Install a tool called `certbot` for certificate management. Follow the [installation instructions](https://certbot.eff.org/instructions?ws=nginx&os=ubuntubionic) on Certbot homepage.
-
-Once you installed a SSL certificate, make sure to test it with your browser. If you see a lock-symbol (🔒) on start of the address bar, you have HTTPS-connection.
-
 ## Nginx configuration
 
 This is the Nginx configuration file for Ruby on Rails application. It is located in `/etc/nginx/sites-available` and then it's symlinked to `/etc/nginx/sites-enabled`.
 
-It has following directives:
+Create the file and then create the symlink with this:
+
+```bash
+$ sudo ln -s /etc/nginx/sites-available/masterlist /etc/nginx/sites-enabled/
+```
+
+Then remove the default virtual host configuration file from `sites-enabled/`:
+
+```bash
+$ sudo rm /etc/nginx/sites-enabled/default
+```
+
+The virtual host configuration file has following directives:
 - Defines the domains to listen for (in this case, it's masterlist.fi)
 - Configures the socket file to communicate with Puma
-- Let's Encrypt SSL configuration
 - Directive to server static assets directly from Nginx (no need for Puma to handle those)
 
 Example Nginx virtual host file:
@@ -208,23 +218,8 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
     }
-
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/masterlist.fi/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/masterlist.fi/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
 }
-server {
-    if ($host = masterlist.fi) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
 
-    listen 80;
-    server_name masterlist.fi;
-    return 404; # managed by Certbot
-}
 ```
 To test if the configuration files are valid, run the following:
 
@@ -236,7 +231,30 @@ nginx: configuration file /etc/nginx/nginx.conf test is successful
 
 If everything is working, you need to restart Nginx by `sudo service nginx restart`. To see the status of Nginx, you can use `sudo service nginx status` command.
 
-Finally, you can test if the web server is responding by browsing to https://example.com, remember to use your own domain.
+## Securing the connection with Let's Encrypt
+
+<div style="border: 1px solid #bf9d5a; background-color: lightyellow; padding: 0.5rem 1rem; margin-bottom: 1.5rem; border-radius: 0.45rem;">
+  Please note, you need a server with public IP-address and a domain name pointing to that IP-adddress in order to continue.
+</div>
+
+In order to secure the HTTP connection, you need to have SSL sertificate. Let's Encrypt is a non-profit organization that provides free SSL-sertificates and they have a tools to automatically provision the sertificates. Before Let's Encrypt, SSL sertificate management was hard and painful, and you had to buy the sertificate from commercial certificate authority.
+
+With Let's Encrypt, you just run few unix commands and you have a working SSL-sertificate securing your web applications. ❤️
+
+Install a tool called `certbot` for certificate management. Follow the [installation instructions](https://certbot.eff.org/instructions?ws=nginx&os=ubuntubionic) on Certbot homepage.
+
+You should see something similar in your terminal while creating the certificates:
+
+```
+Successfully deployed certificate for masterlist.fi to /etc/nginx/sites-enabled/masterlist
+Successfully deployed certificate for www.masterlist.fi to /etc/nginx/sites-enabled/masterlist
+```
+
+Those lines mean that the `certbot` will make modifications in your virtual host configuration file.
+
+Once you installed a SSL certificate, make sure to restart Nginx and open your URL with your browser. If you see a lock-symbol (🔒) on start of the address bar, you have HTTPS-connection.
+
+You can test if the web server is responding by browsing to https://example.com, remember to use your own domain.
 
 ## Running you Ruby on Rails application with Puma
 
@@ -255,6 +273,12 @@ bob@example:~$ which ruby
 /home/deploy/.rbenv/shims/ruby
 ```
 
+Remember to install `bundler` with:
+
+```bash
+$ gem install bundler
+```
+
 ### Configuring Puma
 
 Puma needs some instructions so it can run your web application, so you need to create a file called `config/puma.rb` and add some instructions.
@@ -264,6 +288,7 @@ In the example file below, the Puma is configured to communicate to Nginx using 
 Word of warning, I have given zero thoughts on thread configuration, soso regarding thread counts for your appication, you have to do your own research. This file has some good defaults, so it's a good starting point.
 
 ```ruby
+
 # config/puma.rb
 
 if ENV.fetch("RAILS_ENV", nil) == "production"
@@ -288,16 +313,26 @@ if ENV.fetch("RAILS_ENV", nil) == "production"
     ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
   end
 
-  # Allow puma to be restarted by `rails restart` command
+  # Specify the PID file. Defaults to tmp/pids/server.pid in development.
+  # In other environments, only set the PID file if requested.
+  pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
+
+  # Allow puma to be restarted by `bin/rails restart` command.
   plugin :tmp_restart
+
+  # Run the Solid Queue supervisor inside of Puma for single-server deployments
+  plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]
 
   # Workers (processes)
   workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 end
 
 # Threading configuration
-threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
+threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
+
+# Specifies the `port` that Puma will listen on to receive requests; default is 3000.
+port ENV.fetch("PORT", 3000)
 ```
 
 ### Directory structure on your production server
@@ -372,14 +407,49 @@ Copy the files from local development environment to production server. Use `scp
 
 ```bash
 # this following command MUST be run on your local development environment (a.k.a. your own computer)
-$ scp -R * deploy@example.com:/var/www/apps/masterlist/releases/2024-11-22-14-44-59
+# remember to change the timestamp, the user and the server
+$ rsync -av \
+  --exclude-from='.gitignore' \
+  --exclude '.git' \
+  --exclude 'log/*' \
+  --exclude 'tmp/*' \
+  --exclude 'storage/*' \
+  --exclude 'node_modules' \
+  --exclude 'public/assets' \
+  --exclude 'public/packs' \
+  --exclude 'config/credentials/*.key' \
+  --exclude 'config/master.key' \
+  --exclude '.env*' \
+  --exclude 'spec' \
+  --exclude 'test' \
+  --exclude '.rspec' \
+  --exclude 'coverage' \
+  --exclude '.DS_Store' \
+  --exclude '*.sqlite3' \
+  --progress \
+  --delete \
+  ./ deploy@masterlist.fi:/var/www/apps/masterlist/releases/2024-11-27-11-14-44
 ```
 
-Now we can create the symbolic link (a.k.a. symlink). This will be run on the production server.
+Back on the production server, we can create the symbolic link (a.k.a. symlink).
 
 ```bash
 # make sure you are in /var/www/apps/masterlist directory
 $ ln -sf releases/2024-11-22-14-44-59 current
+```
+
+Install gems for your application
+
+```bash
+$ cd current
+$ bundle install
+```
+
+Copy `master.key` from you local development environment
+
+```bash
+# this will be run on your local development environment
+$ scp config/master.key deploy@masterlist.fi:/var/www/apps/masterlist/current/config/master.key
 ```
 
 Everything is ready for Puma to run your Ruby on Rails application from `current/`-directory and store the database in `shared/storage`.
@@ -399,6 +469,7 @@ Create the database by running the database migrations. Make sure you are runnin
 
 ```bash
 $ cd /var/www/apps/masterlist/current
+$ RAILS_ENV=production bin/rails db:create
 $ RAILS_ENV=production bin/rails db:migrate
 ```
 
@@ -467,26 +538,26 @@ WantedBy=multi-user.target
 Create the service file with using `systemctl` tool.
 
 ```bash
-$ systemctl edit --force --full masterlist.service
+$ sudo systemctl edit --force --full masterlist.service
 ```
 
 Enable the service and start it too
 
 ```bash
-$ systemctl enable --now masterlist.service
+$ sudo systemctl enable --now masterlist.service
 ```
 
 Query the status of the service:
 
 ```bash
-$ systemctl status servicename.service
+$ sudo systemctl status servicename.service
 ```
 
 In case you need to start or stop the service
 
 ```bash
-$ systemctl start servicename.service
-$ systemctl stop servicename.service
+$ sudo systemctl start servicename.service
+$ sudo systemctl stop servicename.service
 ```
 
 If you need to do some troubleshooting, you can find the logs in `/var/www/apps/masterlist/logs`.
