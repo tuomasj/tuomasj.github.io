@@ -469,11 +469,11 @@ $ cd current
 $ bundle install
 ```
 
-Copy `master.key` from you local development environment
+Copy `master.key` from you local development environment into the `shared/`-directory on your production server.
 
 ```bash
 # this will be run on your local development environment
-$ scp config/master.key deploy@masterlist.fi:/var/www/apps/masterlist/current/config/master.key
+$ scp config/master.key deploy@masterlist.fi:/var/www/apps/masterlist/shared/master.key
 ```
 
 Everything is ready for Puma to run your Ruby on Rails application from `current/`-directory and store the database in `shared/storage`.
