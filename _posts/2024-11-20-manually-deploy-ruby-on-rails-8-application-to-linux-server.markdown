@@ -142,7 +142,7 @@ Let's install few packages that you are going to need. We're going to use `sudo`
 
 ```bash
 $ sudo apt update
-$ sudo apt install -y curl git-core nginx nodejs npm yarn ruby-full build-essential libsqlite3-dev libffi-dev libyaml-dev zlib1g-dev
+$ sudo apt install -y curl git-core nginx nodejs npm yarn ruby-full build-essential sqlite3 libsqlite3-dev libffi-dev libyaml-dev zlib1g-dev pkg-config
 ```
 
 This will install Git, Nginx, NodeJS, Yarn, Npm, development libraries and SQLite3.
