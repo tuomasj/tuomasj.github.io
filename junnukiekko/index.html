@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kärpät U11 Aluesarja / Kevät 2025</title>
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 25px 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    table thead tr th {
+      text-align: left;
+    }
+    thead {
+      background-color: #f8f9fa;
+    }
+
+    thead th {
+      padding: 12px 15px;
+      text-align: left;
+      font-weight: 600;
+      color: #495057;
+      border-bottom: 2px solid #dee2e6;
+    }
+
+    table th, td {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    tbody td {
+
+      color: #212529;
+    }
+
+    table tbody tr:nth-child(even) {
+      background-color: #edeeef;
+    }
+
+    table tbody tr.past td {
+      color: #aaa;
+    }
+
+    .narrow { padding-left: 0; padding-right: 0 }
+
+    .shelf {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    [role="button"] {
+      background-color: #99d999;
+      margin: 0.3rem;
+      padding: 0.5rem 0.5rem;
+      border-radius: 0.35rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+    tbody {
+      counter-reset: row;
+    }
+
+    .home-indicator {
+      padding-right: 0.5rem;
+    }
+    .rink-name {
+      padding-left: 0;
+    }
+
+    tr:not(.hidden) {
+      counter-increment: row;
+    }
+
+    tr:not(.hidden):nth-child(odd of :not(.hidden)) {
+      background-color: #ffffff;
+    }
+
+    tr:not(.hidden):nth-child(even of :not(.hidden)) {
+      background-color: #edeeef;
+    }
+
+    label {
+      user-select: none;
+    }
+
+    @media only screen and (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      h2 {
+        font-size: 1.2rem;
+      }
+      th, td {
+        font-size: 13px;
+        padding-left: 0.3rem;
+        padding-right: 0.3rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+      td.home-indicator {
+        padding-right: 0.05rem;
+      }
+      td.rink-name {
+        padding-left: 0;
+      }
+
+      td .game_time {
+        display: block;
+      }
+    }
+
+    @media only screen and (min-width: 1000px) {
+      th, td {
+        font-size: 18px;
+      }
+    }
+    @media only screen and (min-width: 1200px) {
+      th, td {
+        font-size: 21px;
+      }
+    }
+  </style>
+
+  <script defer data-domain="jomppanen.com" src="https://analytics.jomppanen.com/js/script.js"></script>
+</head>
+<body>
+  <h1>Oulun Kärpät U11 (2014)</h1>
+
+  <h2>Aluesarjan aikataulu - Kevät 2025</h2>
+  <form id="filters">
+    
+      <label for="keltainen" role="button">
+        <input id="keltainen" name="keltainen" type="checkbox" value="keltainen" onchange="filter()">
+        Keltainen
+      </label>
+    
+      <label for="musta" role="button">
+        <input id="musta" name="musta" type="checkbox" value="musta" onchange="filter()">
+        Musta
+      </label>
+    
+      <label for="valkoinen" role="button">
+        <input id="valkoinen" name="valkoinen" type="checkbox" value="valkoinen" onchange="filter()">
+        Valkoinen
+      </label>
+    
+  </form>
+
+  <main>
+    
+<table>
+  <thead>
+    <tr>
+
+      <th>Ajankohta</th>
+      <th class="home-indicator"></th>
+      <th class="rink-name">Jäähalli</th>
+      <th></th>
+
+      <th>Koti</th>
+
+      <th class="narrow"></th>
+      <th>Vieras</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+      <tr data-id="38233" class=" keltainen">
+        <td title="38233"><span> La 11.01. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Haukipudas</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">Ahmat oranssi</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Keltainen</td>
+      </tr>
+
+    
+      <tr data-id="38143" class=" valkoinen">
+        <td title="38143"><span> Su 12.01. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Kalajoki</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">JHT Sininen</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Valkoinen</td>
+      </tr>
+
+    
+      <tr data-id="38174" class=" valkoinen">
+        <td title="38174"><span> La 18.01. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Kajaani</td>
+        <td></td>
+
+        <td class="home_team">KHT/Hokki Red</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Valkoinen</td>
+      </tr>
+
+    
+      <tr data-id="38144" class=" valkoinen">
+        <td title="38144"><span> La 18.01. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Kajaani</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">KHT/Hokki Red</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Valkoinen</td>
+      </tr>
+
+    
+      <tr data-id="38238" class="home_game keltainen">
+        <td title="38238"><span> Su 19.01. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Raksila 2</td>
+        <td></td>
+
+        <td class="home_team">Kärpät Keltainen</td>
+        <td class="narrow">-</td>
+        <td>K-Laser Musta</td>
+      </tr>
+
+    
+      <tr data-id="38243" class=" keltainen">
+        <td title="38243"><span> La 25.01. </span> <span class='game_time'> 10:00 </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Linnanmaa 1</td>
+        <td></td>
+
+        <td class="home_team">K-Oulu sin</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Keltainen</td>
+      </tr>
+
+    
+      <tr data-id="38283" class=" keltainen">
+        <td title="38283"><span> Su 26.01. </span> <span class='game_time'> 13:00 </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Kempele</td>
+        <td></td>
+
+        <td class="home_team">K-Laser Valkoinen</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Keltainen</td>
+      </tr>
+
+    
+      <tr data-id="38148" class=" valkoinen">
+        <td title="38148"><span> Ma 27.01. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Jääli</td>
+        <td></td>
+
+        <td class="home_team">KKP S</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Valkoinen</td>
+      </tr>
+
+    
+      <tr data-id="38151" class="home_game valkoinen">
+        <td title="38151"><span> La 01.02. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Linnanmaa 1</td>
+        <td></td>
+
+        <td class="home_team">Kärpät Valkoinen</td>
+        <td class="narrow">-</td>
+        <td>K-Laser Punainen</td>
+      </tr>
+
+    
+      <tr data-id="38247" class="home_game keltainen">
+        <td title="38247"><span> Su 02.02. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Raksila 2</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">Kärpät Keltainen</td>
+        <td class="narrow">-</td>
+        <td>K-Laser Valkoinen</td>
+      </tr>
+
+    
+      <tr data-id="38155" class="home_game musta valkoinen">
+        <td title="38155"><span> La 08.02. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Linnanmaa 1</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">Kärpät Musta</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Valkoinen</td>
+      </tr>
+
+    
+      <tr data-id="38252" class="home_game keltainen">
+        <td title="38252"><span> Su 09.02. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Raksila 2</td>
+        <td></td>
+
+        <td class="home_team">Kärpät Keltainen</td>
+        <td class="narrow">-</td>
+        <td>KKP V</td>
+      </tr>
+
+    
+      <tr data-id="38158" class="home_game valkoinen">
+        <td title="38158"><span> La 15.02. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Linnanmaa 1</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">Kärpät Valkoinen</td>
+        <td class="narrow">-</td>
+        <td>JHT Sininen</td>
+      </tr>
+
+    
+      <tr data-id="38256" class=" keltainen">
+        <td title="38256"><span> La 15.02. </span> <span class='game_time'> 11:00 </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Kuusamo</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">PaKa </td>
+        <td class="narrow">-</td>
+        <td>Kärpät Keltainen</td>
+      </tr>
+
+    
+      <tr data-id="38159" class="home_game valkoinen">
+        <td title="38159"><span> La 22.02. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Linnanmaa 1</td>
+        <td></td>
+
+        <td class="home_team">Kärpät Valkoinen</td>
+        <td class="narrow">-</td>
+        <td>KHT/Hokki Red</td>
+      </tr>
+
+    
+      <tr data-id="38279" class="home_game keltainen">
+        <td title="38279"><span> La 15.03. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Raksila 2</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">Kärpät Keltainen</td>
+        <td class="narrow">-</td>
+        <td>K-Oulu sin</td>
+      </tr>
+
+    
+      <tr data-id="38163" class="home_game valkoinen">
+        <td title="38163"><span> La 15.03. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Linnanmaa 1</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">Kärpät Valkoinen</td>
+        <td class="narrow">-</td>
+        <td>KKP S</td>
+      </tr>
+
+    
+      <tr data-id="38264" class="home_game keltainen">
+        <td title="38264"><span> Su 16.03. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Raksila 2</td>
+        <td></td>
+
+        <td class="home_team">Kärpät Keltainen</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Tytöt</td>
+      </tr>
+
+    
+      <tr data-id="38166" class=" valkoinen">
+        <td title="38166"><span> Su 16.03. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Kempele</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">K-Laser Punainen</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Valkoinen</td>
+      </tr>
+
+    
+      <tr data-id="38170" class="home_game valkoinen musta">
+        <td title="38170"><span> La 22.03. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Linnanmaa 1</td>
+        <td></td>
+
+        <td class="home_team">Kärpät Valkoinen</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Musta</td>
+      </tr>
+
+    
+      <tr data-id="38268" class=" keltainen">
+        <td title="38268"><span> La 22.03. </span> <span class='game_time'> 13:00 </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Muhos</td>
+        <td></td>
+
+        <td class="home_team">MuJK </td>
+        <td class="narrow">-</td>
+        <td>Kärpät Keltainen</td>
+      </tr>
+
+    
+      <tr data-id="38269" class="home_game keltainen">
+        <td title="38269"><span> Su 23.03. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator">🏠</td>
+        <td class="rink-name">Raksila 2</td>
+        <td></td>
+
+        <td class="home_team">Kärpät Keltainen</td>
+        <td class="narrow">-</td>
+        <td>Ahmat oranssi</td>
+      </tr>
+
+    
+      <tr data-id="38274" class=" keltainen">
+        <td title="38274"><span> Su 30.03. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Kempele</td>
+        <td><small>3vs3</small></td>
+
+        <td class="home_team">K-Laser Musta</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Keltainen</td>
+      </tr>
+
+    
+      <tr data-id="38173" class=" valkoinen">
+        <td title="38173"><span> Su 30.03. </span> <span class='game_time'> </span></td>
+        <td class="home-indicator"></td>
+        <td class="rink-name">Kalajoki</td>
+        <td></td>
+
+        <td class="home_team">JHT Sininen</td>
+        <td class="narrow">-</td>
+        <td>Kärpät Valkoinen</td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+  </main>
+  <footer>
+    <br>
+    <br>
+    <br>
+  </footer>
+
+  <script>
+    function filter() {
+      const filtersElement = document.querySelector('#filters');
+      console.log("  filtersElement:", filtersElement);
+      const formData = new FormData( filtersElement );
+      const data = Object.keys(Object.fromEntries(formData));
+
+      if(data.length > 0) {
+        document.querySelectorAll('tbody tr').forEach( (el) => {
+          el.classList.add('hidden');
+        });
+        data.forEach( color => {
+          document.querySelectorAll("."+color).forEach( (el) => {
+            el.classList.remove('hidden');
+          })
+        });
+
+      } else {
+        document.querySelectorAll('tbody tr').forEach( (el) => {
+          el.classList.remove('hidden');
+        });
+      }
+    }
+  </script>
+</body>
+</html>
