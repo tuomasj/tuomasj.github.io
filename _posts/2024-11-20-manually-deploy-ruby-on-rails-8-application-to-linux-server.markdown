@@ -22,12 +22,12 @@ I've tried both options, but I wanted even simpler way to deploy my applications
 
 ## Before continuing, here are few things you need to understand
 
+- This article assumes you are using Ubuntu Linux, these instructions might not work if you're using any other Linux distribution
 - In this article, `example.com` will be used as a placeholder for your own domain or IP-address, adjust accordingly
-- You have to configure the firewall
-- You have to secure the SSH server
-- You have a SSH public key on your own local development machine
+- You have to configure the firewall (I'm using [UFW](https://help.ubuntu.com/community/UFW))
+- You have to secure the SSH server (disable root login, disable password login)
+- You know how to set up SSH public-key authentication for your server
 - Configure DNS-records so that your domain's A-record resolves into server's IP-address
-- This article assumes you are using Ubuntu Linux, these instructions will not work if you're using any other Linux distribution
 - Please consider this article as **"some guy wrote in Internet"**-level information, use your own judgement and common sense
 - You can host multiple Ruby on Rails applications in same server by using this method, but you have to understand that apps are deployed using same unix user `deploy` and therefore are able to write each other directories
 - Finally the disclaimer: If you follow the instructions of this article, you will do it at your own risk -- I will take no responsibility at all
@@ -700,6 +700,8 @@ And there you go! You've reached the end of this long article. Everytime you wan
 Here are some things to consider if you start using this way of deployment
 
 - It bypasses version control completely, so you have to make sure you commit your source code into repository
-- The backups are crucial, especially if you have client data, find out way to do regular backups and store the backups somewhere safe
+- The backups are crucial, especially if you have client data, find out way to do regular backups and store the backups somewhere safe (do some research on "3-2-1 backup rule")
 - Make sure you monitor your system, [rails_performance](https://github.com/igorkasyanchuk/rails_performance) gem might be the thing you need
 - The log files will eventually fill your hard drive and your server will hang, unless you configure a log rotation scheme for your Puma logs and Nginx Logs -- Here is a tutorial [how to manage logs with logrotate](https://betterstack.com/community/guides/logging/how-to-manage-log-files-with-logrotate-on-ubuntu-20-04/#final-thoughts)
+
+There you go, have fun storming the castle! 🙂
