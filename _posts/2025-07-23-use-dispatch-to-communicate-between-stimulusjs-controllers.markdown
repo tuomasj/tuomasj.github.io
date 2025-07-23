@@ -20,14 +20,14 @@ Here are two containers, `<main>` and `<aside>`. They both checkboxes with Stimu
     <input type="checkbox" 
           data-controller="checkable" 
           data-checkable-id-value="1"
-          data-action="statusChanged@window->checkable#setStatus">
+          data-action="checkable:statusChanged@window->checkable#setStatus">
     Cats
   </label>
   <label>
     <input type="checkbox" 
           data-controller="checkable" 
           data-checkable-id-value="1"
-          data-action="statusChanged@window->checkable#setStatus">
+          data-action="checkable:statusChanged@window->checkable#setStatus">
     Dogs
   </label>
 </main>
@@ -47,7 +47,7 @@ Here are two containers, `<main>` and `<aside>`. They both checkboxes with Stimu
 </aside>
 ```
 
-The checkboxes in `<main>` will lister for custom `statusChanged` events. The checkboxes in `<aside>` lister for JavaScript DOM `click` events. Those events enable the communication between the different checkboxes.
+The checkboxes in `<main>` will lister for custom `checkable:statusChanged` events. The checkboxes in `<aside>` lister for JavaScript DOM `click` events. Those events enable the communication between the different checkboxes.
 
 The checkboxes also have `[data-checkable-id-value]` that is used to define a value for Stimulus controller. It's used to distinct the checkboxes from each other, the `id` is shared between a checkbox in `<main>` and `<aside>`.
 
@@ -55,7 +55,7 @@ The checkboxes also have `[data-checkable-id-value]` that is used to define a va
 
 This is the controller that handles the communication between two checkboxes. The `id` is the identifier between the checkbox in `<main>` and `<aside>`. It's the secret sauce to syncronize the `checked`-attribute between the two checkboxes.
 
-The `statusChanged@window->checkable#setStatus` in HTML is the part where the listening controller action is defined. In order to listen events emitted outside the controller's scope, you need to add `@window` after the event name.
+The `checkable:statusChanged@window->checkable#setStatus` in HTML is the part where the listening controller action is defined. In order to listen events emitted outside the controller's scope, you need to add `@window` after the event name.
 
 ```javascript
 // checkable_controller.js
