@@ -1,9 +1,9 @@
 ---
-title: Using Dispatch between Stimulus Controllers
+title: Using Dispatch to communicate between Stimulus Controllers
 layout: post
-description: Dispatch is the way multiple controllers can communicate with each other in Stimulus controllers, and trigger user interface interactions
+description: The dispatch-method is a way multiple Stimulus controllers can communicate with each, and trigger user interface interactions
 ---
-I like to use `dispatch` to drive/trigger UI interactions that require multiple Stimulus Controllers. The `dispatch` in StimulusJS encapsulates JavaScript's own event dispatching functionality, making it simpler to use. I'll show you how I'm using it in [Masterlist](https://www.masterlist.fi), a task management app which I've built.
+I like to use `dispatch` to drive/trigger UI interactions that require multiple [Stimulus Controllers](https://stimulus.hotwired.dev/reference/controllers). The `dispatch` in [Stimulus](https://stimulus.hotwired.dev) encapsulates JavaScript's own event dispatching functionality, making it simpler to use. I'll show you how I'm using it in [Masterlist](https://www.masterlist.fi), a task management app which I've built.
 
 Here is a very simple example of `dispatch` in action. When user clicks the checkbox in Masterlist, it emits an event. The other checkbox under the overlay is listening for that event, and changes it's status accordingly.
 
