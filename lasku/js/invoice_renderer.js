@@ -151,6 +151,10 @@ class InvoiceRenderer {
                       .filter( (line_item) => this.has_empty_line_item(line_item))
                       .map( (line_item) => [line_item.description, line_item.quantity, line_item.unit_price.format(), line_item.tax.toFixed(2)+"%", line_item.amount_after_taxes.format() + " " + this.currencyLabel])
 
+    console.log("InvoiceRenderer.line_items()")
+    console.log("body:")
+    console.log(body)
+
     autoTable(this.document, {
       startY: cursorY,
       head: [ headers ],
@@ -177,7 +181,7 @@ class InvoiceRenderer {
   }
 
   has_empty_line_item(line_item) {
-    return (line_item.quantity > 0 && line_item.unit_price.value > 0.0 && line_item.tax > 0.0)
+    return (line_item.quantity > 0 && line_item.unit_price.value > 0.0)
   }
 
   summary(cursorY) {

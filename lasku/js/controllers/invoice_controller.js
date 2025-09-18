@@ -91,7 +91,10 @@ export default class extends Controller {
 
     this.updateTotals()
 
+    invoice.debug();
+
     const renderer = new InvoiceRenderer(invoice);
+    renderer.debug();
     renderer.save()
 
     return false;
