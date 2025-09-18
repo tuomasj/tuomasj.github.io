@@ -94,7 +94,6 @@ export default class extends Controller {
     invoice.debug();
 
     const renderer = new InvoiceRenderer(invoice);
-    renderer.debug();
     renderer.save()
 
     return false;
