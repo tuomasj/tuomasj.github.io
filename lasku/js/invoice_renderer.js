@@ -177,7 +177,7 @@ class InvoiceRenderer {
   }
 
   has_empty_line_item(line_item) {
-    return (line_item.quantity > 0 && line_item.unit_price.value > 0.0 && line_item.tax > 0.0)
+    return (line_item.quantity > 0 && line_item.unit_price.value > 0.0)
   }
 
   summary(cursorY) {

@@ -13,7 +13,7 @@ class LineItem {
   }
 
   parseInput(value, isFloat, default_value) {
-    if(!value) {
+    if(!value || value == null || value === null) {
       return default_value;
     }
     const val = value.toString().replace(",", ".")
