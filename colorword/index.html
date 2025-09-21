@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Color Word</title>
+  <style>
+    html, body {
+      margin: 0;
+    }
+    body {
+      font-family: sans-serif;
+      font-weight: 800;
+    }
+    .main, .control {
+      background-color: #f0f0f0;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 8rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .control button {
+      font-size: 5rem;
+      padding: 1.5rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+      <script>
+    const words = ["Sininen", "Punainen", "Oranssi", "Vihreä", "Violetti", "Keltainen", "Ruskea", "Turkoosi", "Vaaleanpunainen"]
+
+    const colors = ["blue", "red", "orange", "green", "violet", "yellow", "brown", "cyan", "pink"];
+
+    function showRandomWord(el) {
+      const label = words[Math.floor(Math.random() * words.length)];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      el.innerHTML = "<span style='color: "+color+"'>"+label+"</span>";
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const button = document.getElementById('start');
+      const main = document.querySelector('.main');
+      const control = document.querySelector('.control');
+      button.addEventListener('click', () => {
+        control.classList.add('hidden');
+        main.classList.remove('hidden');
+
+        main.innerHTML = "3.. 2.. 1.."
+
+        setTimeout(() => {
+          let count = 0;
+          function loop() {
+            if (count < 10) {
+              showRandomWord(main);
+              count++;
+              setTimeout(loop, 2000);
+            } else {
+              main.innerHTML = "Valmis"
+            }
+          }
+          loop();
+        }, 3000);
+
+        
+      });
+    });
+    
+
+  </script>
+</head>
+<body>
+  <div class="control">
+    <button id="start" type="button">Aloita</button>
+  </div>
+  <div class="main hidden">
+  </div>
+
+
+</body>
+</html>
