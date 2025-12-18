@@ -353,13 +353,7 @@
             z-index: 1;
         }
 
-        .instructions {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+
 
         details {
             margin-top: 10px;
@@ -385,6 +379,15 @@
             margin-bottom: 0;
         }
 
+        .instructions {
+            background: transparent;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .instructions summary {
+            background: transparent;
+
+        }
         .instructions-content {
             padding: 15px;
             background: var(--primary-bg);
@@ -507,17 +510,20 @@ Sunnuntai
             </details>
         </div>
         
-        <div class="input-section">
-            <div id="groups-container"></div>
-            <div class="button-container">
-                <button class="add-group-btn" onclick="addGroup()">+ Add Group</button>
-                <button class="generate-link-btn" onclick="generateLink()">Generate Link</button>
+        <details id="input-details">
+            <summary>Edit Schedule</summary>
+            <div class="input-section">
+                <div id="groups-container"></div>
+                <div class="button-container">
+                    <button class="add-group-btn" onclick="addGroup()">+ Add Group</button>
+                    <button class="generate-link-btn" onclick="generateLink()">Generate Link</button>
+                </div>
+                <div class="link-input-container" id="link-input-container" style="display: none;">
+                    <input type="text" class="link-input" id="generated-link" readonly>
+                    <button class="copy-link-btn" onclick="copyLink()">Copy</button>
+                </div>
             </div>
-            <div class="link-input-container" id="link-input-container" style="display: none;">
-                <input type="text" class="link-input" id="generated-link" readonly>
-                <button class="copy-link-btn" onclick="copyLink()">Copy</button>
-            </div>
-        </div>
+        </details>
 
         <div class="output-section">
             <div id="visualization"></div>
@@ -1146,12 +1152,21 @@ Sunnuntai
     async function loadFromURL() {
         const urlParams = new URLSearchParams(window.location.search);
         const dataParam = urlParams.get('data');
+        const inputDetails = document.getElementById('input-details');
         
         if (dataParam) {
             await deserializeGroups(dataParam);
+            // Collapse input section when loading from shared link
+            if (inputDetails) {
+                inputDetails.open = false;
+            }
         } else {
             // Initialize with one group if no URL data
             addGroup();
+            // Expand input section by default when no data parameter
+            if (inputDetails) {
+                inputDetails.open = true;
+            }
         }
     }
 
