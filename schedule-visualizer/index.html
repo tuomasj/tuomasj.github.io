@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Visualizer</title>
+    <style>
+        :root {
+            --primary-bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --border-color: #ddd;
+            --text-color: #333;
+            --header-bg: #e8e8e8;
+            --timeline-color: #ccc;
+            --text-color-light: #aaa;
+            --group-spacing: 20px;
+            --event-height: 30px;
+            --event-border-radius: 4px;
+            --time-label-width: 80px;
+            --header-height: 40px;
+            --visualization-base-height: 600px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-color-light);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        footer a {
+            color: var(--text-color-light);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .input-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .group-input {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: var(--primary-bg);
+        }
+
+        .group-header-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .group-header-input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .remove-group-btn {
+            padding: 8px 16px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .remove-group-btn:hover {
+            background: #cc0000;
+        }
+
+        .group-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .add-group-btn {
+            padding: 12px 24px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .add-group-btn:hover {
+            background: #45a049;
+        }
+
+        .generate-link-btn {
+            padding: 12px 24px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .generate-link-btn:hover {
+            background: #1976D2;
+        }
+
+        .link-input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .link-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: monospace;
+            min-width: 300px;
+        }
+
+        .copy-link-btn {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .copy-link-btn:hover {
+            background: #45a049;
+        }
+
+        .copy-link-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .output-section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .timeline-container {
+            display: flex;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .time-labels-column {
+            width: var(--time-label-width);
+            flex-shrink: 0;
+            position: relative;
+            padding-right: 10px;
+        }
+
+        .time-labels-header {
+            height: var(--header-height);
+            margin-bottom: 10px;
+        }
+
+        .time-labels {
+            position: relative;
+        }
+
+        .time-label {
+            position: absolute;
+            font-size: 12px;
+            color: #666;
+            transform: translateY(-50%);
+        }
+
+        .groups-container {
+            flex: 1;
+            display: flex;
+            gap: var(--group-spacing);
+            position: relative;
+        }
+
+        .group-column {
+            flex: 1;
+            min-width: 150px;
+            position: relative;
+        }
+
+        .group-header {
+            min-height: var(--header-height);
+            background: var(--header-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--event-border-radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+            padding: 8px 10px;
+        }
+
+        .group-header-main {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .group-header-sub {
+            font-weight: 500;
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+            position: relative;
+            width: 100%;
+            height: 20px;
+        }
+
+        .group-header-sub-item {
+            position: absolute;
+            padding: 2px 6px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 3px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .group-timeline {
+            position: relative;
+            border-left: 2px solid var(--timeline-color);
+            padding-left: 10px;
+        }
+
+        .lane-border {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: var(--border-color);
+            opacity: 0.5;
+        }
+
+        .time-grid-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            opacity: 0.3;
+        }
+
+        .event {
+            position: absolute;
+            height: var(--event-height);
+            border-radius: var(--event-border-radius);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid rgba(0,0,0,0.2);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            padding: 2px 4px;
+            gap: 0.5rem;
+        }
+
+        .event-time {
+            font-size: 11px;
+            opacity: 0.9;
+            line-height: 1.2;
+        }
+
+        .event-duration {
+            font-size: 10px;
+            opacity: 0.8;
+            line-height: 1.2;
+            margin-top: 2px;
+        }
+
+        .no-events {
+            padding: 20px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+
+        .gap-line {
+            position: absolute;
+        }
+
+        .gap-line::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            border-left: 2px dashed rgba(0, 0, 0, 0.3);
+        }
+
+        .gap-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #666;
+            font-weight: 500;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+
+
+        details {
+            margin-top: 10px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 10px;
+            background: var(--header-bg);
+            border-radius: 4px;
+            user-select: none;
+        }
+
+        summary:hover {
+            background: #d8d8d8;
+        }
+
+        details[open] summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            margin-bottom: 0;
+        }
+
+        .instructions {
+            background: transparent;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .instructions summary {
+            background: transparent;
+
+        }
+        .instructions-content {
+            padding: 15px;
+            background: var(--primary-bg);
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            line-height: 1.6;
+        }
+
+        .instructions-content h3 {
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--text-color);
+        }
+
+        .instructions-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .instructions-content ul, .instructions-content ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .instructions-content li {
+            margin-bottom: 5px;
+        }
+
+        .instructions-content code {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        .instructions-content pre {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Schedule Visualizer</h1>
+        
+        <div class="instructions">
+            <details>
+                <summary>Instructions: How to format input boxes</summary>
+                <div class="instructions-content">
+                    <h3>Input Box Structure</h3>
+                    <p>Each input box (group) consists of two parts:</p>
+                    <ol>
+                        <li><strong>Header field</strong> (optional): A text input at the top for labeling the group
+                            <ul>
+                                <li>Use this to name your team (e.g., "U12 Boys", "U14 Girls", "Senior Team")</li>
+                                <li>If left empty, the group will be labeled as "Group 1", "Group 2", etc.</li>
+                                <li>The header appears in the visualization as a sub-label under the day name</li>
+                            </ul>
+                        </li>
+                        <li><strong>Schedule textarea</strong>: The main input area for match times</li>
+                    </ol>
+
+                    <h3>Schedule Format</h3>
+                    <p>The schedule textarea accepts match times in the format <code>HH:MM-HH:MM</code> where:</p>
+                    <ul>
+                        <li><code>HH:MM</code> is the start time (24-hour format)</li>
+                        <li><code>-</code> separates start and end times</li>
+                        <li><code>HH:MM</code> is the end time (24-hour format)</li>
+                    </ul>
+                    <p><strong>Examples:</strong></p>
+                    <ul>
+                        <li><code>09:10-10:20</code> - Match from 9:10 AM to 10:20 AM</li>
+                        <li><code>13:50-14:40</code> - Match from 1:50 PM to 2:40 PM</li>
+                        <li><code>16:00-16:55</code> - Match from 4:00 PM to 4:55 PM</li>
+                    </ul>
+
+                    <h3>Day Names (Optional)</h3>
+                    <p>You can include day names in the textarea to organize matches by day:</p>
+                    <ul>
+                        <li>Write the day name on its own line (e.g., "Lauantai", "Sunnuntai", "Saturday", "Sunday")</li>
+                        <li>All matches listed after a day name belong to that day</li>
+                        <li>Empty lines are ignored</li>
+                        <li>You can have multiple day names in a single input box</li>
+                    </ul>
+                    <p><strong>Example with day names:</strong></p>
+                    <pre>Lauantai
+09:10-10:20
+13:50-14:40
+16:00-16:55
+
+Sunnuntai
+08:15-09:05
+13:00-15:11</pre>
+                    <p><strong>Example without day names (all matches on one day):</strong></p>
+                    <pre>09:10-10:20
+13:50-14:40
+16:00-16:55</pre>
+
+                    <h3>Multiple Teams</h3>
+                    <ul>
+                        <li>Add one input box per team using the "Add Group" button</li>
+                        <li>Each team gets its own color in the visualization</li>
+                        <li>Teams can have different numbers of matches</li>
+                        <li>Teams can have matches on different days</li>
+                    </ul>
+
+                    <h3>Tips</h3>
+                    <ul>
+                        <li><strong>Copy-paste friendly</strong>: You can copy match schedules from tournament websites or documents and paste them directly</li>
+                        <li><strong>Flexible formatting</strong>: Empty lines don't matter, so you can format for readability</li>
+                        <li><strong>Real-time updates</strong>: The visualization updates automatically as you type</li>
+                        <li><strong>Share easily</strong>: Use "Generate Link" to create a shareable URL with all your schedules</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+        
+        <details id="input-details">
+            <summary>Edit Schedule</summary>
+            <div class="input-section">
+                <div id="groups-container"></div>
+                <div class="button-container">
+                    <button class="add-group-btn" onclick="addGroup()">+ Add Group</button>
+                    <button class="generate-link-btn" onclick="generateLink()">Generate Link</button>
+                </div>
+                <div class="link-input-container" id="link-input-container" style="display: none;">
+                    <input type="text" class="link-input" id="generated-link" readonly>
+                    <button class="copy-link-btn" onclick="copyLink()">Copy</button>
+                </div>
+            </div>
+        </details>
+
+        <div class="output-section">
+            <div id="visualization"></div>
+        </div>
+         
+    </div>
+
+    <footer>
+        Made by <a href="https://www.jomppanen.com">Tuomas Jomppanen</a>
+    </footer>
+
+    <script>
+        const groupColors = [
+            '#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6',
+            '#1abc9c', '#e67e22', '#34495e', '#d35400', '#16a085'
+        ];
+
+        let groupCounter = 0;
+        let groups = [];
+
+        function addGroup() {
+            const container = document.getElementById('groups-container');
+            const groupDiv = document.createElement('div');
+            groupDiv.className = 'group-input';
+            groupDiv.dataset.groupId = groupCounter++;
+            
+            groupDiv.innerHTML = `
+                <div class="group-header-row">
+                    <input type="text" class="group-header-input" placeholder="Group header (optional)" 
+                           oninput="updateVisualization()">
+                    <button class="remove-group-btn" onclick="removeGroup(${groupDiv.dataset.groupId})">Remove</button>
+                </div>
+                <textarea class="group-textarea" placeholder="Enter schedule (HH:MM-HH:MM format)&#10;Example:&#10;09:10-10:20&#10;13:50-14:40" 
+                          oninput="updateVisualization()"></textarea>
+            `;
+            
+            container.appendChild(groupDiv);
+            updateVisualization();
+        }
+
+        function removeGroup(groupId) {
+            const groupDiv = document.querySelector(`[data-group-id="${groupId}"]`);
+            if (groupDiv) {
+                groupDiv.remove();
+                updateVisualization();
+            }
+        }
+
+        function parseTime(timeStr) {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes; // Convert to minutes since midnight
+        }
+
+        function formatTime(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+        }
+
+        function formatGapDuration(minutes) {
+            if (minutes > 90) {
+                const hours = Math.floor(minutes / 60);
+                const mins = minutes % 60;
+                return `${hours}h ${mins}min`;
+            } else {
+                return `${minutes} min`;
+            }
+        }
+
+        function parseSchedule(text, defaultHeader) {
+            const lines = text.split('\n').map(line => line.trim()).filter(line => line);
+            const scheduleGroups = [];
+            let currentDayName = null;
+            let currentEvents = [];
+            
+            for (const line of lines) {
+                // Check if it's a time range (HH:MM-HH:MM)
+                const timeMatch = line.match(/^(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$/);
+                if (timeMatch) {
+                    const startTime = parseTime(`${timeMatch[1]}:${timeMatch[2]}`);
+                    const endTime = parseTime(`${timeMatch[3]}:${timeMatch[4]}`);
+                    currentEvents.push({ start: startTime, end: endTime, label: line });
+                } else {
+                    // It's a day name or other text
+                    // Save previous group if it has events
+                    if (currentEvents.length > 0) {
+                        scheduleGroups.push({
+                            header: currentDayName || defaultHeader || 'Group',
+                            events: currentEvents
+                        });
+                        currentEvents = [];
+                    }
+                    currentDayName = line;
+                }
+            }
+            
+            // Save the last group
+            if (currentEvents.length > 0) {
+                scheduleGroups.push({
+                    header: currentDayName || defaultHeader || 'Group',
+                    events: currentEvents
+                });
+            }
+            
+            // If no day names were found, return a single group with all events
+            if (scheduleGroups.length === 0 && currentEvents.length === 0) {
+                // Re-parse to get all events without day grouping
+                const allEvents = [];
+                for (const line of lines) {
+                    const timeMatch = line.match(/^(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})$/);
+                    if (timeMatch) {
+                        const startTime = parseTime(`${timeMatch[1]}:${timeMatch[2]}`);
+                        const endTime = parseTime(`${timeMatch[3]}:${timeMatch[4]}`);
+                        allEvents.push({ start: startTime, end: endTime, label: line });
+                    }
+                }
+                if (allEvents.length > 0) {
+                    scheduleGroups.push({
+                        header: defaultHeader || 'Group',
+                        events: allEvents
+                    });
+                }
+            }
+            
+            return scheduleGroups;
+        }
+
+        function collectGroups() {
+            const groupInputs = document.querySelectorAll('.group-input');
+            const daysMap = new Map(); // Map: dayName -> array of groups (each group has events from one input box)
+            
+            groupInputs.forEach((groupDiv, groupIndex) => {
+                const headerInput = groupDiv.querySelector('.group-header-input');
+                const textarea = groupDiv.querySelector('.group-textarea');
+                const header = headerInput.value.trim();
+                const text = textarea.value.trim();
+                const groupName = header || `Group ${groupIndex + 1}`;
+                
+                if (text) {
+                    const scheduleGroups = parseSchedule(text, header);
+                    scheduleGroups.forEach(scheduleGroup => {
+                        if (scheduleGroup.events.length > 0) {
+                            const dayName = scheduleGroup.header;
+                            
+                            // Create a deep copy of events
+                            const eventsCopy = scheduleGroup.events.map(e => ({
+                                start: e.start,
+                                end: e.end,
+                                label: e.label
+                            }));
+                            
+                            if (!daysMap.has(dayName)) {
+                                daysMap.set(dayName, []);
+                            }
+                            
+                            // Add this group's events to the day
+                            daysMap.get(dayName).push({
+                                groupIndex: groupIndex,
+                                groupName: groupName,
+                                hasCustomHeader: header.length > 0,
+                                events: eventsCopy,
+                                color: groupColors[groupIndex % groupColors.length]
+                            });
+                        }
+                    });
+                }
+            });
+            
+            // Convert to groups array: each group represents a day
+            groups = Array.from(daysMap.entries()).map(([dayName, dayGroups], dayIndex) => ({
+                id: dayIndex,
+                header: dayName,
+                dayGroups: dayGroups, // Array of groups within this day
+                color: groupColors[dayIndex % groupColors.length]
+            }));
+        }
+
+    function calculateTimeRange() {
+        let minTime = Infinity;
+        let maxTime = -Infinity;
+        
+        groups.forEach(dayGroup => {
+            dayGroup.dayGroups.forEach(group => {
+                group.events.forEach(event => {
+                    minTime = Math.min(minTime, event.start);
+                    maxTime = Math.max(maxTime, event.end);
+                });
+            });
+        });
+        
+        // Add some padding
+        if (minTime !== Infinity) {
+            minTime = Math.max(0, minTime - 30); // 30 minutes padding before
+            maxTime = Math.min(24 * 60, maxTime + 30); // 30 minutes padding after
+        } else {
+            minTime = 0;
+            maxTime = 24 * 60;
+        }
+        
+        return { minTime, maxTime };
+    }
+
+    function findOverlappingEvents(events) {
+        const overlaps = [];
+        const lanes = [];
+        
+        // Sort events by start time, then by end time
+        const sortedEvents = [...events].sort((a, b) => {
+            if (a.start !== b.start) return a.start - b.start;
+            return a.end - b.end; // If same start, sort by end time
+        });
+        
+        sortedEvents.forEach((event, idx) => {
+            let placed = false;
+            
+            // Try to place in existing lane
+            // Check lanes in order and find the first one where this event doesn't overlap
+            for (let i = 0; i < lanes.length; i++) {
+                const lane = lanes[i];
+                // Check if event doesn't overlap with any event in this lane
+                // Two events overlap if: event.start < laneEvent.end && event.end > laneEvent.start
+                // So they don't overlap if: event.start >= laneEvent.end || event.end <= laneEvent.start
+                const canPlaceInLane = lane.every(laneEvent => {
+                    // Check for non-overlap: one ends before or exactly when the other starts
+                    const noOverlap = event.start >= laneEvent.end || event.end <= laneEvent.start;
+                    return noOverlap;
+                });
+                
+                if (canPlaceInLane) {
+                    lane.push(event);
+                    overlaps.push({ event, lane: i });
+                    placed = true;
+                    break;
+                }
+            }
+            
+            // Create new lane if needed
+            if (!placed) {
+                const newLane = [event];
+                lanes.push(newLane);
+                overlaps.push({ event, lane: lanes.length - 1 });
+            }
+        });
+        
+        return { overlaps, lanes };
+    }
+
+    function calculateLabelSpacing(minTime, maxTime) {
+        const timeRange = maxTime - minTime;
+        
+        // Target number of labels (aim for 6-12 labels for good visual spacing)
+        const targetLabels = 8;
+        const idealInterval = timeRange / targetLabels;
+        
+        // Nice intervals in minutes: 15, 30, 60, 120, 180, 240, 360, 480
+        const niceIntervals = [15, 30, 60, 120, 180, 240, 360, 480];
+        
+        // Find the interval that's closest to ideal but not smaller
+        let chosenInterval = niceIntervals[0];
+        for (let i = 0; i < niceIntervals.length; i++) {
+            if (niceIntervals[i] >= idealInterval) {
+                chosenInterval = niceIntervals[i];
+                break;
+            }
+            // If this is the last interval and it's still smaller, use it
+            if (i === niceIntervals.length - 1) {
+                chosenInterval = niceIntervals[i];
+            }
+        }
+        
+        // Round minTime down to the nearest interval
+        const roundedMinTime = Math.floor(minTime / chosenInterval) * chosenInterval;
+        
+        return {
+            interval: chosenInterval,
+            startTime: roundedMinTime
+        };
+    }
+
+    function updateVisualization() {
+        collectGroups();
+        
+        if (groups.length === 0) {
+            document.getElementById('visualization').innerHTML = 
+                '<div class="no-events">Add groups and events to see the visualization</div>';
+            return;
+        }
+        
+        const { minTime, maxTime } = calculateTimeRange();
+        const timeRange = maxTime - minTime;
+        
+        // Calculate visually pleasing label spacing
+        const { interval, startTime } = calculateLabelSpacing(minTime, maxTime);
+        
+        // Round maxTime up to the next interval mark for consistent spacing
+        const roundedMaxTime = Math.ceil(maxTime / interval) * interval;
+        
+        // Use minTime as the base for positioning (events start here)
+        // Extend visualization range to roundedMaxTime for labels
+        const vizMinTime = minTime;
+        const vizMaxTime = roundedMaxTime;
+        const vizTimeRange = vizMaxTime - vizMinTime;
+        
+        // Get base height from CSS variable
+        const baseHeight = parseInt(getComputedStyle(document.documentElement)
+            .getPropertyValue('--visualization-base-height')) || 400;
+        const pixelsPerMinute = baseHeight / vizTimeRange;
+        
+        // Generate time labels at nice intervals
+        // Start from the first interval mark that's at or before minTime, but only show labels >= minTime
+        const timeLabels = [];
+        for (let time = startTime; time <= roundedMaxTime; time += interval) {
+            // Only include labels that are at or after minTime (to avoid labels above the first event)
+            if (time >= minTime) {
+                timeLabels.push(time);
+            }
+        }
+        
+        // Always include minTime as the first label if no other label is close to it
+        if (timeLabels.length === 0 || timeLabels[0] - minTime > interval / 2) {
+            timeLabels.unshift(minTime);
+        }
+        
+        let html = '<div class="timeline-container">';
+        
+        // Time labels column - structure matches group-column
+        html += '<div class="time-labels-column">';
+        html += '<div class="time-labels-header"></div>'; // Spacer to match group-header height
+        html += `<div class="time-labels" style="min-height: ${vizTimeRange * pixelsPerMinute}px">`;
+        timeLabels.forEach(time => {
+            const top = ((time - vizMinTime) / vizTimeRange) * 100;
+            html += `<div class="time-label" style="top: ${top}%">${formatTime(time)}</div>`;
+        });
+        html += '</div>'; // time-labels
+        html += '</div>'; // time-labels-column
+        
+        // Groups container
+        html += '<div class="groups-container">';
+        
+        // Each group represents a day
+        groups.forEach((dayGroup, dayIndex) => {
+            const numGroupsInDay = dayGroup.dayGroups.length;
+            
+            html += `<div class="group-column">`;
+            html += `<div class="group-header">`;
+            html += `<div class="group-header-main">${dayGroup.header}</div>`;
+            
+            // Check if any groups have custom headers
+            const groupsWithHeaders = dayGroup.dayGroups.filter(group => group.hasCustomHeader);
+            if (groupsWithHeaders.length > 0) {
+                html += `<div class="group-header-sub">`;
+                dayGroup.dayGroups.forEach((group, groupIdx) => {
+                    if (group.hasCustomHeader) {
+                        // Calculate position and width to match the group's lane
+                        const groupLeft = (groupIdx / numGroupsInDay) * 100;
+                        const groupWidth = (100 / numGroupsInDay);
+                        html += `<span class="group-header-sub-item" style="left: ${groupLeft}%; width: ${groupWidth}%;">${group.groupName}</span>`;
+                    }
+                });
+                html += `</div>`;
+            }
+            html += `</div>`;
+            html += `<div class="group-timeline" style="min-height: ${vizTimeRange * pixelsPerMinute}px">`;
+            
+            // Add horizontal grid lines every 60 minutes
+            const gridInterval = 60; // 60 minutes = 1 hour
+            const roundedMinGridTime = Math.floor(vizMinTime / gridInterval) * gridInterval;
+            for (let gridTime = roundedMinGridTime; gridTime <= vizMaxTime; gridTime += gridInterval) {
+                // Only show grid lines within the visible range
+                if (gridTime >= vizMinTime && gridTime <= vizMaxTime) {
+                    const top = ((gridTime - vizMinTime) / vizTimeRange) * 100;
+                    html += `<div class="time-grid-line" style="top: ${top}%;"></div>`;
+                }
+            }
+            
+            // Render each group (input box) within this day
+            dayGroup.dayGroups.forEach((group, groupIdx) => {
+                // Find overlapping events within this group
+                const { overlaps, lanes } = findOverlappingEvents(group.events);
+                const numLanes = lanes.length;
+                
+                // Calculate the position and width for this group within the day column
+                const groupLeft = (groupIdx / numGroupsInDay) * 100;
+                const groupWidth = (100 / numGroupsInDay);
+                
+                // Render events for this group
+                overlaps.forEach(({ event, lane }) => {
+                    const top = ((event.start - vizMinTime) / vizTimeRange) * 100;
+                    const height = ((event.end - event.start) / vizTimeRange) * 100;
+                    // Position within the group's allocated space
+                    const left = groupLeft + (lane / numLanes) * groupWidth;
+                    const width = (groupWidth / numLanes) - 1;
+                    const duration = event.end - event.start;
+                    
+                    html += `
+                        <div class="event" 
+                             style="top: ${top}%; 
+                                    height: ${height}%; 
+                                    left: ${left}%; 
+                                    width: ${width}%; 
+                                    background-color: ${group.color};">
+                            <span class="event-time">${event.label}</span>
+                            <span class="event-duration">${duration} min</span>
+                        </div>
+                    `;
+                });
+                
+                // Detect and render gaps between consecutive events in each lane
+                for (let laneIdx = 0; laneIdx < numLanes; laneIdx++) {
+                    // Get all events in this lane, sorted by start time
+                    const laneEvents = overlaps
+                        .filter(({ lane }) => lane === laneIdx)
+                        .map(({ event }) => event)
+                        .sort((a, b) => a.start - b.start);
+                    
+                    // Check for gaps between consecutive events in this lane
+                    for (let i = 0; i < laneEvents.length - 1; i++) {
+                        const currentEvent = laneEvents[i];
+                        const nextEvent = laneEvents[i + 1];
+                        const gapStart = currentEvent.end;
+                        const gapEnd = nextEvent.start;
+                        
+                        // If there's a gap between consecutive events
+                        if (gapEnd > gapStart) {
+                            const gapDuration = gapEnd - gapStart;
+                            
+                            // Only show gap visualization if duration is 60 minutes or more
+                            if (gapDuration >= 60) {
+                                const gapTop = ((gapStart - vizMinTime) / vizTimeRange) * 100;
+                                const gapHeight = ((gapEnd - gapStart) / vizTimeRange) * 100;
+                                const gapLeft = groupLeft + (laneIdx / numLanes) * groupWidth;
+                                const gapWidth = (groupWidth / numLanes) - 1;
+                                
+                                html += `
+                                    <div class="gap-line" 
+                                         style="top: ${gapTop}%; 
+                                                height: ${gapHeight}%; 
+                                                left: ${gapLeft}%; 
+                                                width: ${gapWidth}%;">
+                                        <div class="gap-label">${formatGapDuration(gapDuration)}</div>
+                                    </div>
+                                `;
+                            }
+                        }
+                    }
+                }
+                
+                // Add vertical border at the right edge of this group (except for the last group)
+                if (groupIdx < numGroupsInDay - 1) {
+                    const borderLeft = groupLeft + groupWidth;
+                    html += `<div class="lane-border" style="left: ${borderLeft}%;"></div>`;
+                }
+            });
+            
+            html += '</div></div>';
+        });
+        
+        html += '</div></div>';
+        
+        document.getElementById('visualization').innerHTML = html;
+    }
+
+    async function compressData(data) {
+        const encoder = new TextEncoder();
+        const stream = new CompressionStream('gzip');
+        const writer = stream.writable.getWriter();
+        writer.write(encoder.encode(data));
+        writer.close();
+        
+        const compressed = await new Response(stream.readable).arrayBuffer();
+        const bytes = new Uint8Array(compressed);
+        
+        // Convert to base64 in chunks to avoid argument limit issues
+        let binary = '';
+        const chunkSize = 8192;
+        for (let i = 0; i < bytes.length; i += chunkSize) {
+            const chunk = bytes.subarray(i, i + chunkSize);
+            binary += String.fromCharCode(...chunk);
+        }
+        
+        const base64 = btoa(binary);
+        return encodeURIComponent(base64);
+    }
+
+    async function decompressData(compressedData) {
+        try {
+            const decoded = decodeURIComponent(compressedData);
+            const binary = atob(decoded);
+            const bytes = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            
+            const stream = new DecompressionStream('gzip');
+            const writer = stream.writable.getWriter();
+            writer.write(bytes);
+            writer.close();
+            
+            const decompressed = await new Response(stream.readable).arrayBuffer();
+            const decoder = new TextDecoder();
+            return decoder.decode(decompressed);
+        } catch (error) {
+            console.error('Decompression error:', error);
+            throw error;
+        }
+    }
+
+    async function serializeGroups() {
+        const groupInputs = document.querySelectorAll('.group-input');
+        const groupsData = [];
+        
+        groupInputs.forEach((groupDiv) => {
+            const headerInput = groupDiv.querySelector('.group-header-input');
+            const textarea = groupDiv.querySelector('.group-textarea');
+            const header = headerInput.value.trim();
+            const content = textarea.value.trim();
+            
+            // Only include groups with content
+            if (content) {
+                groupsData.push({
+                    header: header,
+                    content: content
+                });
+            }
+        });
+        
+        const jsonString = JSON.stringify(groupsData);
+        return await compressData(jsonString);
+    }
+
+    async function deserializeGroups(encodedData) {
+        try {
+            const jsonString = await decompressData(encodedData);
+            const groupsData = JSON.parse(jsonString);
+            
+            // Clear existing groups
+            const container = document.getElementById('groups-container');
+            container.innerHTML = '';
+            groupCounter = 0;
+            
+            // Restore groups
+            if (groupsData.length === 0) {
+                addGroup();
+            } else {
+                groupsData.forEach((groupData) => {
+                    const groupDiv = document.createElement('div');
+                    groupDiv.className = 'group-input';
+                    const groupId = groupCounter++;
+                    groupDiv.dataset.groupId = groupId;
+                    
+                    const headerInput = document.createElement('input');
+                    headerInput.type = 'text';
+                    headerInput.className = 'group-header-input';
+                    headerInput.placeholder = 'Group header (optional)';
+                    headerInput.value = groupData.header;
+                    headerInput.oninput = updateVisualization;
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-group-btn';
+                    removeBtn.textContent = 'Remove';
+                    removeBtn.onclick = () => removeGroup(groupId);
+                    
+                    const headerRow = document.createElement('div');
+                    headerRow.className = 'group-header-row';
+                    headerRow.appendChild(headerInput);
+                    headerRow.appendChild(removeBtn);
+                    
+                    const textarea = document.createElement('textarea');
+                    textarea.className = 'group-textarea';
+                    textarea.placeholder = 'Enter schedule (HH:MM-HH:MM format)\nExample:\n09:10-10:20\n13:50-14:40';
+                    textarea.value = groupData.content;
+                    textarea.oninput = updateVisualization;
+                    
+                    groupDiv.appendChild(headerRow);
+                    groupDiv.appendChild(textarea);
+                    
+                    container.appendChild(groupDiv);
+                });
+            }
+            
+            updateVisualization();
+        } catch (error) {
+            console.error('Error deserializing groups:', error);
+            alert('Error loading data from URL. Please check if the URL is valid.');
+        }
+    }
+
+    async function generateLink() {
+        try {
+            const encodedData = await serializeGroups();
+            const url = new URL(window.location.href);
+            url.searchParams.set('data', encodedData);
+            
+            // Update URL without reloading
+            window.history.pushState({}, '', url);
+            
+            // Show the input box and populate it
+            const linkInput = document.getElementById('generated-link');
+            const linkContainer = document.getElementById('link-input-container');
+            linkInput.value = url.toString();
+            linkContainer.style.display = 'flex';
+            
+            // Select the text in the input for easy copying
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999); // For mobile devices
+        } catch (error) {
+            console.error('Error generating link:', error);
+            alert('Error generating link. Please try again.');
+        }
+    }
+
+    async function copyLink() {
+        const linkInput = document.getElementById('generated-link');
+        try {
+            await navigator.clipboard.writeText(linkInput.value);
+            const copyBtn = document.querySelector('.copy-link-btn');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            copyBtn.disabled = true;
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.disabled = false;
+            }, 2000);
+        } catch (err) {
+            // Fallback: select the text so user can manually copy
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999);
+        }
+    }
+
+    async function loadFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const dataParam = urlParams.get('data');
+        const inputDetails = document.getElementById('input-details');
+        
+        if (dataParam) {
+            await deserializeGroups(dataParam);
+            // Collapse input section when loading from shared link
+            if (inputDetails) {
+                inputDetails.open = false;
+            }
+        } else {
+            // Initialize with one group if no URL data
+            addGroup();
+            // Expand input section by default when no data parameter
+            if (inputDetails) {
+                inputDetails.open = true;
+            }
+        }
+    }
+
+    // Initialize on page load
+    loadFromURL();
+    </script>
+</body>
+</html>
+
