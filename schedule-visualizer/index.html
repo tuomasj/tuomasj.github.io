@@ -12,6 +12,7 @@
             --text-color: #333;
             --header-bg: #e8e8e8;
             --timeline-color: #ccc;
+            --text-color-light: #aaa;
             --group-spacing: 20px;
             --event-height: 30px;
             --event-border-radius: 4px;
@@ -31,6 +32,17 @@
             background-color: var(--primary-bg);
             color: var(--text-color);
             padding: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-color-light);
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        footer a {
+            color: var(--text-color-light);
         }
 
         .container {
@@ -528,7 +540,12 @@ Sunnuntai
         <div class="output-section">
             <div id="visualization"></div>
         </div>
+         
     </div>
+
+    <footer>
+        Made by <a href="https://www.jomppanen.com">Tuomas Jomppanen</a>
+    </footer>
 
     <script>
         const groupColors = [
