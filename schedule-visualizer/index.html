@@ -453,31 +453,10 @@
             font-size: 13px;
         }
     </style>
-    <!-- track pageview but without query params to protect the privacy of website visitors -->
-      <script defer src="https://cloud.umami.is/script.js"data-website-id="ae48056e-5bcd-40b2-8cce-2d5cdabfc1c3" data-auto-track="false"></script>
-    <script>
-      const script = document.querySelector('script[data-website-id]');
-
-      function trackPageview() {
-        umami.track('pageview', { 
-            url: "/schedule-visualizer/",
-            title: "Schedule Visualizer",
-            website: "ae48056e-5bcd-40b2-8cce-2d5cdabfc1c3"
-          }
-        );
-      }
-
-      script.addEventListener('load', () => {
-        if (typeof umami !== 'undefined') {
-          trackPageview();
-        } else {
-          setTimeout(trackPageview, 250);
-        }
-      });
 
 
-    </script>
-
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="ae48056e-5bcd-40b2-8cce-2d5cdabfc1c3"></script>
+    
 
 </head>
 <body>
