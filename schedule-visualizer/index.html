@@ -6,8 +6,8 @@
     <title>Schedule Visualizer</title>
     <meta property="og:title" content="Schedule Visualizer">
     <meta property="og:type" content="article" />
-    <meta property="og:image" content="https://www.jomppanen.com/schedule-visualizator/thumbnail.png">
-    <meta property="og:url" content="https://www.jomppanen.com/schedule-visualizator/">
+    <meta property="og:image" content="https://www.jomppanen.com/schedule-visualizer/thumbnail.png">
+    <meta property="og:url" content="https://www.jomppanen.com/schedule-visualizer/">
     <meta name="twitter:card" content="summary_large_image">
     <style>
         :root {
@@ -50,6 +50,9 @@
             color: var(--text-color-light);
         }
 
+        img {
+          width: 50%;
+        }
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -461,6 +464,9 @@
             <details>
                 <summary>Instructions: How to format input boxes</summary>
                 <div class="instructions-content">
+                  <p>
+                    <img src="/schedule-visualizer/thumbnail.png">
+                  <p>
                     <h3>Input Box Structure</h3>
                     <p>Each input box (group) consists of two parts:</p>
                     <ol>
@@ -491,18 +497,18 @@
                     <h3>Day Names (Optional)</h3>
                     <p>You can include day names in the textarea to organize matches by day:</p>
                     <ul>
-                        <li>Write the day name on its own line (e.g., "Lauantai", "Sunnuntai", "Saturday", "Sunday")</li>
+                        <li>Write the day name on its own line (e.g., "Saturday", "Sunday")</li>
                         <li>All matches listed after a day name belong to that day</li>
                         <li>Empty lines are ignored</li>
                         <li>You can have multiple day names in a single input box</li>
                     </ul>
                     <p><strong>Example with day names:</strong></p>
-                    <pre>Lauantai
+                    <pre>Saturday
 09:10-10:20
 13:50-14:40
 16:00-16:55
 
-Sunnuntai
+Sunday
 08:15-09:05
 13:00-15:11</pre>
                     <p><strong>Example without day names (all matches on one day):</strong></p>
