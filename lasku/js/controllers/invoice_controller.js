@@ -3,6 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 
 import { Invoice } from "../invoice.js"
 import { InvoiceRenderer } from "../invoice_renderer.js"
+import { t } from "../i18n.js"
 
 export default class extends Controller {
 
@@ -32,7 +33,7 @@ export default class extends Controller {
       if(percentage > 0) {
         const tr = document.createElement("tr")
         const td_tax = document.createElement("td")
-        td_tax.textContent = "ALV "+parseFloat(percentage).toFixed(2)+"%"
+        td_tax.textContent = t("vat")+" "+parseFloat(percentage).toFixed(2)+"%"
         const td_amount = document.createElement("td")
         td_amount.textContent = tax_total.format() + " "+invoice.currencyLabel;
 

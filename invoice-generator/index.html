@@ -2,13 +2,14 @@
 layout: none
 ---
 <!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ilmainen laskupohja</title>
-  <link rel="stylesheet" href="invoice.css">
-  <meta name="description" content="Helppo ja ilmainen laskupohja, jolla voit tehdä laskun ja tallettaa sen PDF-muodossa">
+  <title>Free invoice generator</title>
+  <link rel="stylesheet" href="/lasku/invoice.css">
+  <meta name="description" content="Easy and free invoice generator, create an invoice and download it as a PDF">
+  <script src="labels.js"></script>
   <script type="importmap">
   {
     "imports": {
@@ -22,48 +23,48 @@ layout: none
   }
   </script>
   <script type="module" src="/lasku/js/application.js"></script>
-  
+
   {% include analytics.html %}
 
-  <link rel="canonical" href="https://www.jomppanen.com/lasku/" />
+  <link rel="canonical" href="https://www.jomppanen.com/invoice-generator/" />
 </head>
 <body>
   <header>
-    <a href="/">&larr; Takaisin etusivulle</a>
+    <a href="/">&larr; Back to front page</a>
   </header>
   <main data-controller="invoice">
-    <form lang="fi" data-invoice-target="form" data-action="line-item:recalculate->invoice#recalculate submit->invoice#preventSubmit">
+    <form lang="en" data-invoice-target="form" data-action="line-item:recalculate->invoice#recalculate submit->invoice#preventSubmit">
       <section class="header">
-        <h1>Ilmainen laskupohja</h1>
+        <h1>Free invoice generator</h1>
       </section>
       <section class="invoice-section">
 
         <div class="columns">
           <div class="column recipients invoice-section">
             <div class="field">
-              <label class="label is-block">Lähettäjä</label>
+              <label class="label is-block">From</label>
               <textarea name="sender" class="textarea is-fullwidth is-large-textarea"></textarea>
             </div>
 
             <div class="field">
-              <label class="label is-block">Vastaanottaja</label>
+              <label class="label is-block">Bill to</label>
               <textarea name="recipient" class="textarea is-fullwidth is-large-textarea"></textarea>
             </div>
           </div>
 
           <div class="column">
             <div class="field">
-              <label class="label">Laskun numero</label>
+              <label class="label">Invoice number</label>
               <input name="invoice_number" type="text" class="input" value="">
             </div>
 
             <div class="field">
-              <label class="label">Laskun päiväys</label>
+              <label class="label">Invoice date</label>
               <input name="created_at" type="text" class="input" value="" data-invoice-target="createdAt">
             </div>
 
             <div class="field">
-              <label class="label">Laskun eräpäivä</label>
+              <label class="label">Due date</label>
               <input name="due_date_at" type="text" class="input" value=""  data-invoice-target="dueDateAt">
             </div>
 
@@ -75,11 +76,11 @@ layout: none
         <table class="table is-fullwidth invoice-table">
           <thead>
             <tr>
-              <th>Kuvaus</th>
-              <th>Määrä</th>
-              <th>Yks. Hinta</th>
-              <th>Alv%</th>
-              <th>Yhteensä</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Unit price</th>
+              <th>VAT%</th>
+              <th>Total</th>
               <th></th>
             </tr>
           </thead>
@@ -113,7 +114,7 @@ layout: none
         <div class="actions">
           <button class="button" type="button" data-action="click->invoice#addLineItem">
             <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg></span>
-            <span>Lisää rivi</span>
+            <span>Add row</span>
           </button>
         </div>
       </section>
@@ -123,7 +124,7 @@ layout: none
           <tbody class="total-before-taxes">
             <tr>
               <td class="spacing"></td>
-              <td>Yhteensä ilman arvonlisäveroa</td>
+              <td>Total excluding VAT</td>
               <td data-invoice-target="amountBeforeTaxes">0,00</td>
               <td class="spacing"></td>
             </tr>
@@ -134,13 +135,13 @@ layout: none
           <tbody class="totals">
             <tr class="tax">
               <td class="spacing"></td>
-              <td>Arvonlisävero yhteensä</td>
+              <td>Total VAT</td>
               <td data-invoice-target="taxesTotal">0,00</td>
               <td class="spacing"></td>
             </tr>
             <tr class="amount">
               <td class="spacing"></td>
-              <td>Maksettavaa yhteensä</td>
+              <td>Total due</td>
               <td data-invoice-target="amountAfterTaxes">0,00</td>
               <td class="spacing"></td>
             </tr>
@@ -150,19 +151,19 @@ layout: none
 
       <section class="payment-details invoice-section">
         <div class="field">
-          <label class="label is-block">Laskun lisätiedot</label>
+          <label class="label is-block">Additional information</label>
           <textarea name="description" class="textarea is-fullwidth" data-controller="autogrow" data-action="input->autogrow#grow"></textarea>
         </div>
         <br>
         <div class="columns">
           <div class="column">
             <div class="field">
-              <label class="label">IBAN / Tilinumero</label>
+              <label class="label">IBAN / Account number</label>
               <input name="iban" type="text" class="input" value="">
             </div>
 
             <div class="field">
-              <label class="label">BIC</label>
+              <label class="label">BIC / SWIFT</label>
               <input name="bic" type="text" class="input" value="">
             </div>
 
@@ -170,12 +171,12 @@ layout: none
 
           <div class="column">
             <div class="field">
-              <label class="label">Viite</label>
+              <label class="label">Reference</label>
               <input name="reference" type="text" class="input" value="">
             </div>
 
             <div class="field">
-              <label class="label">Y-tunnus</label>
+              <label class="label">Business ID</label>
               <input name="business_id" type="text" class="input" value="">
             </div>
 
@@ -183,9 +184,9 @@ layout: none
         </div>
       </section>
       <section class="footer invoice-section text-centered">
-        <button data-umami-event="download-invoice" data-umami-event-lang="fi" class="button primary is-large" type="submit" data-action="click->invoice#generate">
+        <button data-umami-event="download-invoice" data-umami-event-lang="en" class="button primary is-large" type="submit" data-action="click->invoice#generate">
           <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg></span>
-          <span>Lataa lasku PDF:nä</span>
+          <span>Download invoice as PDF</span>
         </button>
       </section>
     </form>

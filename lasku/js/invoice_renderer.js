@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
+import { t } from "./i18n.js"
 
 class InvoiceRenderer {
 
@@ -47,7 +48,7 @@ class InvoiceRenderer {
   getFilename() {
     return [
             [
-              "lasku",
+              t("filename_prefix"),
               this.invoice.invoice_number,
               this.leadingZeroCreatedAt()
             ].filter( node => (node && node.length > 0)).join("-"),
@@ -64,7 +65,7 @@ class InvoiceRenderer {
 
   save() {
 
-    this.print_text("LASKU", 15, 20, 24)
+    this.print_text(t("document_title"), 15, 20, 24)
 
     var cursorY = this.pageStartY;
     var cursorY = Math.max(
@@ -84,9 +85,9 @@ class InvoiceRenderer {
   header(cursorY) {
     const headerX = (this.pageWidth * 0.6);   // 60% of page width
     const lines = [
-                    ["Laskun numero", this.invoice.invoice_number],
-                    ["Laskun päiväys", this.invoice.created_at],
-                    ["Laskun eräpäivä", this.invoice.due_date_at]
+                    [t("invoice_number"), this.invoice.invoice_number],
+                    [t("created_at"), this.invoice.created_at],
+                    [t("due_date_at"), this.invoice.due_date_at]
                   ]
 
     for(const i in lines) {
@@ -105,8 +106,8 @@ class InvoiceRenderer {
   recipients(cursorY) {
     const cursorX = 15;
     const lines = [
-                    ["Lähettäjä", this.invoice.sender],
-                    ["Vastaanottaja", this.invoice.recipient]
+                    [t("sender"), this.invoice.sender],
+                    [t("recipient"), this.invoice.recipient]
                   ];
 
     const opts = {
@@ -146,7 +147,7 @@ class InvoiceRenderer {
   }
 
   line_items(cursorY) {
-    const headers = [ "Kuvaus", "Määrä", "Yks. Hinta", "Alv%", "Yhteensä"];
+    const headers = [ t("line_item_description"), t("line_item_quantity"), t("line_item_unit_price"), t("line_item_tax"), t("line_item_amount")];
     const body = this.invoice.line_items
                       .filter( (line_item) => this.has_empty_line_item(line_item))
                       .map( (line_item) => [line_item.description, line_item.quantity, line_item.unit_price.format(), line_item.tax.toFixed(2)+"%", line_item.amount_after_taxes.format() + " " + this.currencyLabel])
@@ -183,9 +184,9 @@ class InvoiceRenderer {
   summary(cursorY) {
 
     const lines = [
-                     ["Yhteensä ilman arvonlisäveroa", this.invoice.amount_before_taxes.format() + " "+this.invoice.currencyLabel],
-                     ["Arvonlisävero yhteensä", this.invoice.tax_amount.format() + " "+this.invoice.currencyLabel],
-                     ["Maksettavaa yhteensä", this.invoice.amount_after_taxes.format() + " "+this.invoice.currencyLabel]
+                     [t("amount_before_taxes"), this.invoice.amount_before_taxes.format() + " "+this.invoice.currencyLabel],
+                     [t("taxes_total"), this.invoice.tax_amount.format() + " "+this.invoice.currencyLabel],
+                     [t("amount_after_taxes"), this.invoice.amount_after_taxes.format() + " "+this.invoice.currencyLabel]
                    ]
 
     cursorY += this.lineHeight*2;
@@ -229,7 +230,7 @@ class InvoiceRenderer {
     if(this.invoice.description && this.invoice.description.length > 0) {
       cursorY += this.lineHeight;
 
-      this.print_label("Laskun lisätiedot", 15, cursorY, this.labelFontSize)
+      this.print_label(t("description"), 15, cursorY, this.labelFontSize)
 
       cursorY += this.lineHeight;
 
@@ -238,6 +239,10 @@ class InvoiceRenderer {
       this.document.text(this.invoice.description, 15, cursorY, { maxWidth: 210-(15*2) })
 
       cursorY += this.getTextHeight(this.invoice.description, 210-(15*2))
+
+      // payment_details() starts drawing one lineHeight above the cursor it
+      // receives, so leave a gap or a short description overlaps the IBAN label
+      cursorY += this.lineHeight;
     }
     return cursorY;
 
@@ -249,13 +254,13 @@ class InvoiceRenderer {
     const secondColumnX = firstColumnX + ((this.pageWidth - (firstColumnX * 2)) / 2);
 
     const firstColumn = [
-                          ["IBAN / Tilinumero", this.invoice.iban],
-                          ["BIC", this.invoice.bic]
+                          [t("iban"), this.invoice.iban],
+                          [t("bic"), this.invoice.bic]
                          ]
 
     const secondColumn = [
-                            ["Viite", this.invoice.reference],
-                            ["Y-tunnus", this.invoice.business_id]
+                            [t("reference"), this.invoice.reference],
+                            [t("business_id"), this.invoice.business_id]
                           ]
 
 
