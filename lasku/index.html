@@ -1,3 +1,6 @@
+---
+layout: none
+---
 <!DOCTYPE html>
 <html lang="fi">
 <head>
@@ -5,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ilmainen laskupohja</title>
   <link rel="stylesheet" href="invoice.css">
-  <meta name="description" content="Helppo ja ilmainen laskupohja, jolla voit tallettaa laskun PDF-muodossa">
+  <meta name="description" content="Helppo ja ilmainen laskupohja, jolla voit tehdä laskun ja tallettaa sen PDF-muodossa">
   <script type="module" src="app.js"></script>
   
   {% include analytics.html %}
@@ -168,7 +171,7 @@
         </div>
       </section>
       <section class="footer invoice-section text-centered">
-        <button class="button primary is-large plausible-event-name=Download+PDF+Invoice" type="submit" data-action="click->invoice#generate">
+        <button data-umami-event="download-invoice" data-umami-event-lang="fi" class="button primary is-large" type="submit" data-action="click->invoice#generate">
           <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg></span>
           <span>Lataa lasku PDF:nä</span>
         </button>
